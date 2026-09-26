@@ -64,12 +64,74 @@ section{padding:78px 22px}.wrap{max-width:1200px;margin:auto}.section-head{text-
 <h3>Quick text editing</h3><p class="help">Pwede mo ring i-click ang <b>EDIT WEBSITE</b>, tapos direktang i-click ang text sa page at i-type ang gusto mong kapalit.</p>
 <div class="actions"><button class="secondary" onclick="resetEdits()">Reset</button><button class="primary" onclick="saveAll()">💾 Save Changes</button></div>
 </div></div></div><div class="toast" id="toast"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+const SUPABASE_URL = 'https://uahrpqliyswujbajhusq.supabase.co/rest/v1/';
+const SUPABASE_KEY = 'sb_publishable_VV3oy-m3mEsNwA_lY7UEqQ_uCOOg03U';
+
+const supabaseClient = supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);<script>
 const STORE='dragonHomesEditorV2';
-const textEls=[...document.querySelectorAll('[contenteditable="true"]')];
+const textEls=[...document.querySelectorAll('[contenteditable="true"]')];textEls.forEach(el => el.setAttribute('contenteditable','false'));
+  textEls.forEach(el => el.setAttribute('contenteditable','false'));
 function data(){try{return JSON.parse(localStorage.getItem(STORE)||'{}')}catch(e){return {}}}
 function showToast(t){const x=document.getElementById('toast');x.textContent=t;x.classList.add('show');setTimeout(()=>x.classList.remove('show'),2200)}
-function openEditor(){document.getElementById('editor').classList.add('open');document.body.classList.add('editing');const d=data();document.getElementById('seoTitle').value=d.seoTitle||document.title;document.getElementById('seoDesc').value=d.seoDesc||document.querySelector('meta[name=description]').content;document.getElementById('card1PriceInput').value=d.price_card1||document.querySelector('[data-key=card1Price]').textContent;document.getElementById('card2PriceInput').value=d.price_card2||document.querySelector('[data-key=card2Price]').textContent;document.getElementById('card3PriceInput').value=d.price_card3||document.querySelector('[data-key=card3Price]').textContent;document.getElementById('featurePriceInput').value=d.price_feature||document.querySelector('[data-key=price]').textContent;['logoImg','featuredImg','lotImg','houseImg','condoImg'].forEach(id=>{const p=document.getElementById('preview'+id.replace('Img','').replace(/^logo$/,'Logo'));});syncPreviews()}
+async function openEditor(){
+
+  const { data: { session } } =
+    await supabaseClient.auth.getSession();
+
+  if (!session) {
+    const email = prompt("Admin email:");
+    if (!email) return;
+
+    const password = prompt("Admin password:");
+    if (!password) return;
+
+    const { error } =
+      await supabaseClient.auth.signInWithPassword({
+        email: email,
+        password: password
+      });
+
+    if (error) {
+      alert("Login failed. Admin access only.");
+      return;
+    }
+  }
+
+  document.getElementById('editor').classList.add('open');
+  document.body.classList.add('editing');
+  textEls.forEach(el => el.setAttribute('contenteditable','true'));
+  const d = data();
+
+  document.getElementById('seoTitle').value =
+    d.seoTitle || document.title;
+
+  document.getElementById('seoDesc').value =
+    d.seoDesc ||
+    document.querySelector('meta[name=description]').content;
+
+  document.getElementById('card1PriceInput').value =
+    d.price_card1 ||
+    document.querySelector('[data-key=card1Price]').textContent;
+
+  document.getElementById('card2PriceInput').value =
+    d.price_card2 ||
+    document.querySelector('[data-key=card2Price]').textContent;
+
+  document.getElementById('card3PriceInput').value =
+    d.price_card3 ||
+    document.querySelector('[data-key=card3Price]').textContent;
+
+  document.getElementById('featurePriceInput').value =
+    d.price_feature ||
+    document.querySelector('[data-key=price]').textContent;
+
+  syncPreviews();
+}(){document.getElementById('editor').classList.add('open');document.body.classList.add('editing');const d=data();document.getElementById('seoTitle').value=d.seoTitle||document.title;document.getElementById('seoDesc').value=d.seoDesc||document.querySelector('meta[name=description]').content;document.getElementById('card1PriceInput').value=d.price_card1||document.querySelector('[data-key=card1Price]').textContent;document.getElementById('card2PriceInput').value=d.price_card2||document.querySelector('[data-key=card2Price]').textContent;document.getElementById('card3PriceInput').value=d.price_card3||document.querySelector('[data-key=card3Price]').textContent;document.getElementById('featurePriceInput').value=d.price_feature||document.querySelector('[data-key=price]').textContent;['logoImg','featuredImg','lotImg','houseImg','condoImg'].forEach(id=>{const p=document.getElementById('preview'+id.replace('Img','').replace(/^logo$/,'Logo'));});syncPreviews()}
 function closeEditor(){document.getElementById('editor').classList.remove('open');document.body.classList.remove('editing')}
 function syncPreviews(){const map={previewLogo:'logoImg',previewFeatured:'featuredImg',previewLot:'lotImg',previewHouse:'houseImg',previewCondo:'condoImg'};const d=data();Object.entries(map).forEach(([p,id])=>document.getElementById(p).src=d['img_'+id]||document.getElementById(id).src);const h=document.getElementById('previewHero');const hero=d.img_hero||'';h.src=hero||'images/hero.jpg'}
 function pickImage(e,target,preview){const f=e.target.files[0];if(!f)return;const reader=new FileReader();reader.onload=()=>{compressImage(reader.result,1400,.82,dataUrl=>{const d=data();d['img_'+target]=dataUrl;localStorage.setItem(STORE,JSON.stringify(d));applyImage(target,dataUrl);document.getElementById(preview).src=dataUrl;showToast('Image added. Click Save Changes.');});};reader.readAsDataURL(f)}
