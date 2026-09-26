@@ -238,8 +238,8 @@ async function openEditor(){
   const password = prompt("Admin password:");
   if (!password) return;
 
-  const { data, error } =
-    await supabaseClient.auth.signInWithPassword({
+  const { data: authData, error } =
+  await supabaseClient.auth.signInWithPassword({
       email: email,
       password: password
     });
@@ -249,7 +249,7 @@ async function openEditor(){
     return;
   }
 
-  const currentSession = data.session;
+  const currentSession = authData.session;
 
   if (!currentSession || !currentSession.user) {
     alert("Admin login required.");
