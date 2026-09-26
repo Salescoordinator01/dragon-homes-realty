@@ -307,40 +307,7 @@ async function openEditor(){
 
   syncPreviews();
 }
-  textEls.forEach(el => {
-    el.contentEditable = 'true';
-  });
-
-  document.getElementById('editor').classList.add('open');
-  document.body.classList.add('editing');
-
-  const d = data();
-
-  document.getElementById('seoTitle').value =
-    d.seoTitle || document.title;
-
-  document.getElementById('seoDesc').value =
-    d.seoDesc ||
-    document.querySelector('meta[name=description]').content;
-
-  document.getElementById('card1PriceInput').value =
-    d.price_card1 ||
-    document.querySelector('[data-key=card1Price]').textContent;
-
-  document.getElementById('card2PriceInput').value =
-    d.price_card2 ||
-    document.querySelector('[data-key=card2Price]').textContent;
-
-  document.getElementById('card3PriceInput').value =
-    d.price_card3 ||
-    document.querySelector('[data-key=card3Price]').textContent;
-
-  document.getElementById('featurePriceInput').value =
-    d.price_feature ||
-    document.querySelector('[data-key=price]').textContent;
-
-  syncPreviews();
-}
+  
 function closeEditor(){document.getElementById('editor').classList.remove('open');document.body.classList.remove('editing')}
 function syncPreviews(){const map={previewLogo:'logoImg',previewFeatured:'featuredImg',previewLot:'lotImg',previewHouse:'houseImg',previewCondo:'condoImg'};const d=data();Object.entries(map).forEach(([p,id])=>document.getElementById(p).src=d['img_'+id]||document.getElementById(id).src);const h=document.getElementById('previewHero');const hero=d.img_hero||'';h.src=hero||'images/hero.jpg'}
 function pickImage(e,target,preview){const f=e.target.files[0];if(!f)return;const reader=new FileReader();reader.onload=()=>{compressImage(reader.result,1400,.82,dataUrl=>{const d=data();d['img_'+target]=dataUrl;localStorage.setItem(STORE,JSON.stringify(d));applyImage(target,dataUrl);document.getElementById(preview).src=dataUrl;showToast('Image added. Click Save Changes.');});};reader.readAsDataURL(f)}
