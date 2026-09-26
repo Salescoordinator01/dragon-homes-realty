@@ -23,7 +23,7 @@ section{padding:78px 22px}.wrap{max-width:1200px;margin:auto}.section-head{text-
 </style>
 </head>
 <body>
-<button id="editBtn" onclick="openEditor()" style="display:none;">✏️ EDIT WEBSITE</button>
+<button id="editBtn" onclick="openEditor()">🔐 ADMIN LOGIN</button>
 <header><div class="nav"><div class="brand"><img id="logoImg" src="images/dragon-homes-logo.png" alt="Dragon Homes Realty Corp."><div class="brand-text" contenteditable="false" data-key="brand">DRAGON HOMES<small>REALTY CORP.</small></div></div><nav><a href="#properties">Properties</a><a href="#about">About</a><a href="#contact">Contact</a></nav></div></header>
 <section class="hero"><div class="hero-inner"><div class="tag" contenteditable="false" data-key="tag">PREMIUM REAL ESTATE</div><h1 contenteditable="false" data-key="heroTitle">Properties that match your next chapter.</h1><p contenteditable="false" data-key="heroText">Welcome to Dragon Homes Realty Corp. — connecting buyers with selected residential, luxury and investment properties across the Philippines.</p><a class="cta" href="#properties" contenteditable="false" data-key="heroButton">VIEW PROPERTIES</a></div></section>
 <section id="properties"><div class="wrap"><div class="section-head"><h2 contenteditable="false" data-key="featuredTitle">Featured Property</h2><p contenteditable="false" data-key="featuredIntro">Selected properties presented for serious buyers, investors and private inquiries.</p></div><div class="feature"><img id="featuredImg" src="images/corinthian.jpg" alt="Featured Property"><div class="feature-copy"><div class="kicker" contenteditable="false" data-key="featureKicker">PRIVATE LUXURY PROPERTY OFFERING</div><h3 contenteditable="false" data-key="featureTitle">Corinthian Gardens, Quezon City</h3><p contenteditable="false" data-key="featureText">A rare opportunity to acquire a prime residential lot inside one of Quezon City's established exclusive communities.</p><div class="details"><div class="detail"><b>LOT AREA</b><span contenteditable="false" data-key="lotArea">1,319 sqm</span></div><div class="detail"><b>LOCATION</b><span contenteditable="false" data-key="location">Corinthian Gardens, Quezon City</span></div><div class="detail"><b>PROPERTY TYPE</b><span contenteditable="false" data-key="propertyType">Prime Residential Lot</span></div><div class="detail"><b>PRICE</b><span contenteditable="false" data-key="price">Available upon request</span></div></div><a class="btn" href="#contact" contenteditable="false" data-key="featureButton">REQUEST DETAILS</a></div></div></div></section>
@@ -277,6 +277,7 @@ async function openEditor(){
   }
 
   document.getElementById('editBtn').style.display = 'block';
+document.getElementById('editBtn').textContent = '✏️ EDIT WEBSITE';
 
   textEls.forEach(el => {
     el.contentEditable = 'true';
