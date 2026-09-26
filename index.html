@@ -23,7 +23,7 @@ section{padding:78px 22px}.wrap{max-width:1200px;margin:auto}.section-head{text-
 </style>
 </head>
 <body>
-<button id="editBtn" onclick="openEditor()">✏️ EDIT WEBSITE</button>
+<button id="editBtn" onclick="openEditor()" style="display:none;">✏️ EDIT WEBSITE</button>
 <header><div class="nav"><div class="brand"><img id="logoImg" src="images/dragon-homes-logo.png" alt="Dragon Homes Realty Corp."><div class="brand-text" contenteditable="false" data-key="brand">DRAGON HOMES<small>REALTY CORP.</small></div></div><nav><a href="#properties">Properties</a><a href="#about">About</a><a href="#contact">Contact</a></nav></div></header>
 <section class="hero"><div class="hero-inner"><div class="tag" contenteditable="false" data-key="tag">PREMIUM REAL ESTATE</div><h1 contenteditable="false" data-key="heroTitle">Properties that match your next chapter.</h1><p contenteditable="false" data-key="heroText">Welcome to Dragon Homes Realty Corp. — connecting buyers with selected residential, luxury and investment properties across the Philippines.</p><a class="cta" href="#properties" contenteditable="false" data-key="heroButton">VIEW PROPERTIES</a></div></section>
 <section id="properties"><div class="wrap"><div class="section-head"><h2 contenteditable="false" data-key="featuredTitle">Featured Property</h2><p contenteditable="false" data-key="featuredIntro">Selected properties presented for serious buyers, investors and private inquiries.</p></div><div class="feature"><img id="featuredImg" src="images/corinthian.jpg" alt="Featured Property"><div class="feature-copy"><div class="kicker" contenteditable="false" data-key="featureKicker">PRIVATE LUXURY PROPERTY OFFERING</div><h3 contenteditable="false" data-key="featureTitle">Corinthian Gardens, Quezon City</h3><p contenteditable="false" data-key="featureText">A rare opportunity to acquire a prime residential lot inside one of Quezon City's established exclusive communities.</p><div class="details"><div class="detail"><b>LOT AREA</b><span contenteditable="false" data-key="lotArea">1,319 sqm</span></div><div class="detail"><b>LOCATION</b><span contenteditable="false" data-key="location">Corinthian Gardens, Quezon City</span></div><div class="detail"><b>PROPERTY TYPE</b><span contenteditable="false" data-key="propertyType">Prime Residential Lot</span></div><div class="detail"><b>PRICE</b><span contenteditable="false" data-key="price">Available upon request</span></div></div><a class="btn" href="#contact" contenteditable="false" data-key="featureButton">REQUEST DETAILS</a></div></div></div></section>
@@ -233,7 +233,9 @@ async function openEditor(){
   const { data: { session } } =
     await supabaseClient.auth.getSession();
 
-  if (!session) {
+  let currentSession = session;
+
+  if (!currentSession) {
 
     const email = prompt("Admin email:");
     if (!email) return;
@@ -241,7 +243,7 @@ async function openEditor(){
     const password = prompt("Admin password:");
     if (!password) return;
 
-    const { error } =
+    const { data, error } =
       await supabaseClient.auth.signInWithPassword({
         email: email,
         password: password
@@ -251,8 +253,65 @@ async function openEditor(){
       alert("Login failed: " + error.message);
       return;
     }
+
+    currentSession = data.session;
   }
 
+  if (!currentSession || !currentSession.user) {
+    alert("Admin login required.");
+    return;
+  }
+
+  /* ADMIN EMAIL CHECK */
+  const adminEmail = "salesnorth.dragon@gmail.com";
+
+  if (
+    !currentSession.user.email ||
+    currentSession.user.email.toLowerCase() !== adminEmail.toLowerCase()
+  ) {
+    alert("Access denied. Admin only.");
+
+    await supabaseClient.auth.signOut();
+
+    return;
+  }
+
+  document.getElementById('editBtn').style.display = 'block';
+
+  textEls.forEach(el => {
+    el.contentEditable = 'true';
+  });
+
+  document.getElementById('editor').classList.add('open');
+  document.body.classList.add('editing');
+
+  const d = data();
+
+  document.getElementById('seoTitle').value =
+    d.seoTitle || document.title;
+
+  document.getElementById('seoDesc').value =
+    d.seoDesc ||
+    document.querySelector('meta[name=description]').content;
+
+  document.getElementById('card1PriceInput').value =
+    d.price_card1 ||
+    document.querySelector('[data-key=card1Price]').textContent;
+
+  document.getElementById('card2PriceInput').value =
+    d.price_card2 ||
+    document.querySelector('[data-key=card2Price]').textContent;
+
+  document.getElementById('card3PriceInput').value =
+    d.price_card3 ||
+    document.querySelector('[data-key=card3Price]').textContent;
+
+  document.getElementById('featurePriceInput').value =
+    d.price_feature ||
+    document.querySelector('[data-key=price]').textContent;
+
+  syncPreviews();
+}
   textEls.forEach(el => {
     el.contentEditable = 'true';
   });
