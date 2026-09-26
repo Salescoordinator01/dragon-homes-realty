@@ -104,10 +104,9 @@ async function openEditor(){
       });
 
     if (error) {
-      alert("Login failed. Admin access only.");
-      return;
-    }
-  }
+  alert("Login failed: " + error.message);
+  return;
+}
 
   textEls.forEach(el => {
     el.contentEditable = 'true';
