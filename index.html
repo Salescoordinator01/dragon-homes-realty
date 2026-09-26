@@ -65,15 +65,19 @@ section{padding:78px 22px}.wrap{max-width:1200px;margin:auto}.section-head{text-
 <div class="actions"><button class="secondary" onclick="resetEdits()">Reset</button><button class="primary" onclick="saveAll()">💾 Save Changes</button></div>
 </div></div></div><div class="toast" id="toast"></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
-const SUPABASE_URL = 'https://uahrpqliyswujbajhusq.supabase.co/rest/v1/';
-const SUPABASE_KEY = 'sb_publishable_VV3oy-m3mEsNwA_lY7UEqQ_uCOOg03U';
+const SUPABASE_URL = 'https://uahrpqliyswujbajhusq.supabase.co';
+const SUPABASE_KEY = 'YOUR_PUBLISHABLE_KEY';
 
 const supabaseClient = supabase.createClient(
   SUPABASE_URL,
   SUPABASE_KEY
-);<script>
+);
+
 const STORE='dragonHomesEditorV2';
+
 const textEls=[...document.querySelectorAll('[contenteditable="true"]')];
 
 textEls.forEach(el => {
