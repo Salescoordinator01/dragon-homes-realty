@@ -144,6 +144,64 @@ async function openEditor(){
 
   syncPreviews();
 }
+
+  const { data: { session } } =
+    await supabaseClient.auth.getSession();
+
+  if (!session) {
+
+    const email = prompt("Admin email:");
+    if (!email) return;
+
+    const password = prompt("Admin password:");
+    if (!password) return;
+
+    const { error } =
+      await supabaseClient.auth.signInWithPassword({
+        email: email,
+        password: password
+      });
+
+    if (error) {
+      alert("Login failed: " + error.message);
+      return;
+    }
+  }
+
+  textEls.forEach(el => {
+    el.contentEditable = 'true';
+  });
+
+  document.getElementById('editor').classList.add('open');
+  document.body.classList.add('editing');
+
+  const d = data();
+
+  document.getElementById('seoTitle').value =
+    d.seoTitle || document.title;
+
+  document.getElementById('seoDesc').value =
+    d.seoDesc ||
+    document.querySelector('meta[name=description]').content;
+
+  document.getElementById('card1PriceInput').value =
+    d.price_card1 ||
+    document.querySelector('[data-key=card1Price]').textContent;
+
+  document.getElementById('card2PriceInput').value =
+    d.price_card2 ||
+    document.querySelector('[data-key=card2Price]').textContent;
+
+  document.getElementById('card3PriceInput').value =
+    d.price_card3 ||
+    document.querySelector('[data-key=card3Price]').textContent;
+
+  document.getElementById('featurePriceInput').value =
+    d.price_feature ||
+    document.querySelector('[data-key=price]').textContent;
+
+  syncPreviews();
+}
   textEls.forEach(el => {
     el.contentEditable = 'true';
   });
