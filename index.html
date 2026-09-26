@@ -230,32 +230,26 @@ function data(){try{return JSON.parse(localStorage.getItem(STORE)||'{}')}catch(e
 function showToast(t){const x=document.getElementById('toast');x.textContent=t;x.classList.add('show');setTimeout(()=>x.classList.remove('show'),2200)}
 async function openEditor(){
 
-  const { data: { session } } =
-    await supabaseClient.auth.getSession();
+  await supabaseClient.auth.signOut();
 
-  let currentSession = session;
+  const email = prompt("Admin email:");
+  if (!email) return;
 
-  if (!currentSession) {
+  const password = prompt("Admin password:");
+  if (!password) return;
 
-    const email = prompt("Admin email:");
-    if (!email) return;
+  const { data, error } =
+    await supabaseClient.auth.signInWithPassword({
+      email: email,
+      password: password
+    });
 
-    const password = prompt("Admin password:");
-    if (!password) return;
-
-    const { data, error } =
-      await supabaseClient.auth.signInWithPassword({
-        email: email,
-        password: password
-      });
-
-    if (error) {
-      alert("Login failed: " + error.message);
-      return;
-    }
-
-    currentSession = data.session;
+  if (error) {
+    alert("Login failed: " + error.message);
+    return;
   }
+
+  const currentSession = data.session;
 
   if (!currentSession || !currentSession.user) {
     alert("Admin login required.");
@@ -277,7 +271,7 @@ async function openEditor(){
   }
 
   document.getElementById('editBtn').style.display = 'block';
-document.getElementById('editBtn').textContent = '✏️ EDIT WEBSITE';
+  document.getElementById('editBtn').textContent = '✏️ EDIT WEBSITE';
 
   textEls.forEach(el => {
     el.contentEditable = 'true';
