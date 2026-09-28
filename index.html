@@ -3729,67 +3729,195 @@ function escapeHtml(value){
 async function renderProperties(){
 
   const list =
-    document.getElementById(
-      'propertyList'
-    );
-
+    document.getElementById('propertyList');
 
   const manage =
-    document.getElementById(
-      'manageProperties'
-    );
-
+    document.getElementById('manageProperties');
 
   if(!list){
-
     return;
-
   }
-
 
   list.innerHTML =
     '<p class="help">Loading properties...</p>';
 
-
   const properties =
     await getProperties();
-
 
   if(!properties.length){
 
     list.innerHTML =
       '<p class="help">No properties available yet.</p>';
 
-
     if(manage){
-
       manage.innerHTML =
         '<p class="help">No added properties yet.</p>';
-
     }
 
-
     return;
-
   }
-
 
   /* PUBLIC PROPERTY CARDS */
 
   list.innerHTML =
-    properties.map(
-      property => `
+    properties.map(property => {
+
+      const image =
+        property.image_url ||
+        'images/hero.jpg';
+
+      const statusColor =
+        property.status === 'Sold'
+          ? '#b00020'
+          : property.status === 'Reserved'
+            ? '#b36b00'
+            : '#16803c';
+
+      let details = '';
+
+      if(property.lot_area){
+        details +=
+          'Lot Area: ' +
+          escapeHtml(property.lot_area) +
+          '<br>';
+      }
+
+      if(property.floor_area){
+        details +=
+          'Floor Area: ' +
+          escapeHtml(property.floor_area) +
+          '<br>';
+      }
+
+      if(property.bedrooms){
+        details +=
+          'Bedrooms: ' +
+          escapeHtml(property.bedrooms) +
+          '<br>';
+      }
+
+      if(property.bathrooms){
+        details +=
+          'Bathrooms: ' +
+          escapeHtml(property.bathrooms) +
+          '<br>';
+      }
+
+      if(property.parking){
+        details +=
+          'Parking: ' +
+          escapeHtml(property.parking);
+      }
+
+      let paymentDetails = '';
+
+      if(
+        property.reservation_fee ||
+        property.equity ||
+        property.monthly_payment ||
+        property.promo ||
+        property.payment_terms
+      ){
+
+        paymentDetails = `
+
+          <div
+            style="
+              margin-top:14px;
+              padding:14px;
+              background:#f7f9ff;
+              border-left:4px solid #1428a0;
+              border-radius:8px;
+            "
+          >
+
+            <strong
+              style="
+                display:block;
+                color:#1428a0;
+                margin-bottom:8px;
+              "
+            >
+              PAYMENT DETAILS
+            </strong>
+
+            ${
+              property.reservation_fee
+                ? `
+                  <div>
+                    <b>Reservation:</b>
+                    ${escapeHtml(
+                      property.reservation_fee
+                    )}
+                  </div>
+                `
+                : ''
+            }
+
+            ${
+              property.equity
+                ? `
+                  <div>
+                    <b>Equity:</b>
+                    ${escapeHtml(
+                      property.equity
+                    )}
+                  </div>
+                `
+                : ''
+            }
+
+            ${
+              property.monthly_payment
+                ? `
+                  <div>
+                    <b>Monthly:</b>
+                    ${escapeHtml(
+                      property.monthly_payment
+                    )}
+                  </div>
+                `
+                : ''
+            }
+
+            ${
+              property.promo
+                ? `
+                  <div>
+                    <b>Promo:</b>
+                    ${escapeHtml(
+                      property.promo
+                    )}
+                  </div>
+                `
+                : ''
+            }
+
+            ${
+              property.payment_terms
+                ? `
+                  <div>
+                    <b>Terms:</b>
+                    ${escapeHtml(
+                      property.payment_terms
+                    )}
+                  </div>
+                `
+                : ''
+            }
+
+          </div>
+
+        `;
+      }
+
+      return `
 
         <article class="property-card">
 
           <img
-            src="${escapeHtml(
-              property.image_url ||
-              'images/hero.jpg'
-            )}"
-            alt="${escapeHtml(
-              property.name
-            )}"
+            src="${escapeHtml(image)}"
+            alt="${escapeHtml(property.name)}"
           >
 
           <div class="card-body">
@@ -3798,29 +3926,18 @@ async function renderProperties(){
               style="
                 font-size:11px;
                 font-weight:800;
-                color:${
-                  property.status === 'Sold'
-                    ? '#b00020'
-                    : property.status === 'Reserved'
-                      ? '#b36b00'
-                      : '#16803c'
-                };
+                color:${statusColor};
                 margin-bottom:6px;
               "
             >
               ${escapeHtml(
-                property.status ||
-                'Available'
+                property.status || 'Available'
               )}
             </div>
 
-
             <h3>
-              ${escapeHtml(
-                property.name
-              )}
+              ${escapeHtml(property.name)}
             </h3>
-
 
             <div class="meta">
 
@@ -3839,7 +3956,6 @@ async function renderProperties(){
 
             </div>
 
-
             <div class="price">
 
               ${escapeHtml(
@@ -3849,187 +3965,132 @@ async function renderProperties(){
 
             </div>
 
+            ${
+              details
+                ? `
+                  <div class="meta">
+                    ${details}
+                  </div>
+                `
+                : ''
+            }
 
-            <div class="meta">
+            ${
+              property.description
+                ? `
+                  <p>
+                    ${escapeHtml(
+                      property.description
+                    )}
+                  </p>
+                `
+                : ''
+            }
 
-              ${
-                property.lot_area
-                  ? 'Lot Area: ' +
-                    escapeHtml(
-                      property.lot_area
-                    ) +
-                    '<br>'
-                  : ''
-              }
+            ${paymentDetails}
 
-              ${
-                property.floor_area
-                  ? 'Floor Area: ' +
-                    escapeHtml(
-                      property.floor_area
-                    ) +
-                    '<br>'
-                  : ''
-              }
+            <a
+              class="btn"
+              href="#contact"
+            >
+              INQUIRE
+            </a>
 
-              ${
-                property.bedrooms
-                  ? 'Bedrooms: ' +
-                    escapeHtml(
-                      property.bedrooms
-                    ) +
-                    '<br>'
-                  : ''
-              }
+          </div>
 
-              ${
-                property.bathrooms
-                  ? 'Bathrooms: ' +
-                    escapeHtml(
-                      property.bathrooms
-                    ) +
-                    '<br>'
-                  : ''
-              }
+        </article>
 
-              ${
-                property.parking
-                  ? 'Parking: ' +
-                    escapeHtml(
-                      property.parking
-                    )
-                  : ''
-              }
+      `;
 
-            </div>
+    }).join('');
 
 
-           ${
-  property.description
-    ? `
-      <p>
-        ${escapeHtml(
-          property.description
-        )}
-      </p>
-    `
-    : ''
-}
+  /* =========================================================
+     ADMIN MANAGEMENT LIST
+  ========================================================= */
 
-${
-  (
-    property.reservation_fee ||
-    property.equity ||
-    property.monthly_payment ||
-    property.promo ||
-    property.payment_terms
-  )
-    ? `
+  if(!manage){
+    return;
+  }
+
+  const admin =
+    await isAdmin();
+
+  if(!admin){
+
+    manage.innerHTML =
+      '<p class="help">Login as admin to manage projects.</p>';
+
+    return;
+  }
+
+  manage.innerHTML =
+    properties.map(property => `
+
       <div
         style="
-          margin-top:14px;
-          padding:14px;
-          background:#f7f9ff;
-          border-left:4px solid #1428a0;
+          display:flex;
+          justify-content:space-between;
+          align-items:center;
+          gap:10px;
+          border:1px solid #ddd;
+          padding:10px;
           border-radius:8px;
+          margin:7px 0;
         "
       >
 
-        <strong
-          style="
-            display:block;
-            color:#1428a0;
-            margin-bottom:8px;
-          "
-        >
-          PAYMENT DETAILS
-        </strong>
+        <span>
 
-        ${
-          property.reservation_fee
-            ? `
-              <div>
-                <b>Reservation:</b>
-                ${escapeHtml(
-                  property.reservation_fee
-                )}
-              </div>
-            `
-            : ''
-        }
+          <b>
+            ${escapeHtml(property.name)}
+          </b>
 
-        ${
-          property.equity
-            ? `
-              <div>
-                <b>Equity:</b>
-                ${escapeHtml(
-                  property.equity
-                )}
-              </div>
-            `
-            : ''
-        }
+          <br>
 
-        ${
-          property.monthly_payment
-            ? `
-              <div>
-                <b>Monthly:</b>
-                ${escapeHtml(
-                  property.monthly_payment
-                )}
-              </div>
-            `
-            : ''
-        }
+          <small>
 
-        ${
-          property.promo
-            ? `
-              <div>
-                <b>Promo:</b>
-                ${escapeHtml(
-                  property.promo
-                )}
-              </div>
-            `
-            : ''
-        }
+            ${escapeHtml(
+              property.location || ''
+            )}
 
-        ${
-          property.payment_terms
-            ? `
-              <div>
-                <b>Terms:</b>
-                ${escapeHtml(
-                  property.payment_terms
-                )}
-              </div>
-            `
-            : ''
-        }
+            •
+
+            ${escapeHtml(
+              property.price || 'No price'
+            )}
+
+          </small>
+
+        </span>
+
+        <span class="property-actions">
+
+          <button
+            class="secondary"
+            onclick="editProperty(${Number(
+              property.id
+            )})"
+          >
+            Edit
+          </button>
+
+          <button
+            class="secondary"
+            onclick="deleteProperty(${Number(
+              property.id
+            )})"
+          >
+            Delete
+          </button>
+
+        </span>
 
       </div>
-    `
-    : ''
+
+    `).join('');
+
 }
-
-
-        <a
-          class="btn"
-          href="#contact"
-        >
-          INQUIRE
-        </a>
-
-      </div>
-
-    </article>
-
-`
-    )
-    .join('');
 
   /* =========================================================
      ADMIN MANAGEMENT LIST
