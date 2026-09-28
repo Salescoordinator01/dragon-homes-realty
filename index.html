@@ -3638,163 +3638,113 @@ function togglePricePerSqmField(){
   const houseSpecsRow2 =
     document.getElementById('houseSpecsRow2');
 
-  const floorAreaField =
-    document.getElementById('floorAreaField');
 
-  const bedroomsField =
-    document.getElementById('bedroomsField');
+  /* LOT ONLY / COMMERCIAL LOT */
 
-  const bathroomsField =
-    document.getElementById('bathroomsField');
+  if(
+    type === 'Lot Only' ||
+    type === 'Commercial Lot'
+  ){
 
-  const parkingField =
-    document.getElementById('parkingField');
+    if(lotAreaField)
+      lotAreaField.style.display = 'block';
 
+    if(frontageField)
+      frontageField.style.display = 'block';
 
-  /* =========================
-     LOT ONLY
-  ========================= */
+    if(pricePerSqmField)
+      pricePerSqmField.style.display =
+        type === 'Lot Only'
+          ? 'block'
+          : 'none';
 
- /* =========================
-   LOT ONLY / COMMERCIAL LOT
-========================= */
+    if(houseSpecsRow1)
+      houseSpecsRow1.style.display = 'none';
 
-if(
-  type === 'Lot Only' ||
-  type === 'Commercial Lot'
-){
+    if(houseSpecsRow2)
+      houseSpecsRow2.style.display = 'none';
 
-  if(lotAreaField)
-    lotAreaField.style.display = 'block';
+    if(lotAreaInput){
+      lotAreaInput.style.display = 'block';
+    }
 
-  if(frontageField)
-    frontageField.style.display = 'block';
+    if(type === 'Commercial Lot'){
+      if(pricePerSqmInput)
+        pricePerSqmInput.value = '';
+    }
 
-  if(pricePerSqmField)
-    pricePerSqmField.style.display =
-      type === 'Lot Only'
-        ? 'block'
-        : 'none';
-
-  if(houseSpecsRow1)
-    houseSpecsRow1.style.display = 'none';
-
-  if(houseSpecsRow2)
-    houseSpecsRow2.style.display = 'none';
-
-  if(type === 'Commercial Lot'){
-
-    if(pricePerSqmInput)
-      pricePerSqmInput.value = '';
+    document.getElementById('newPropFloorArea').value = '';
+    document.getElementById('newPropBedrooms').value = '';
+    document.getElementById('newPropBathrooms').value = '';
+    document.getElementById('newPropParking').value = '';
 
   }
 
-  if(floorAreaField)
-    document.getElementById(
-      'newPropFloorArea'
-    ).value = '';
 
-  if(bedroomsField)
-    document.getElementById(
-      'newPropBedrooms'
-    ).value = '';
-
-  if(bathroomsField)
-    document.getElementById(
-      'newPropBathrooms'
-    ).value = '';
-
-  if(parkingField)
-    document.getElementById(
-      'newPropParking'
-    ).value = '';
-
-}
-
-  /* =========================
-     CONDOMINIUM
-  ========================= */
+  /* CONDOMINIUM */
 
   else if(type === 'Condominium'){
 
-    // Hide Lot Area
     if(lotAreaField)
       lotAreaField.style.display = 'none';
 
-    // Hide Frontage
     if(frontageField)
       frontageField.style.display = 'none';
 
-    // Hide Price per sqm
     if(pricePerSqmField)
       pricePerSqmField.style.display = 'none';
 
-
-    // Show house/condo specs
     if(houseSpecsRow1)
       houseSpecsRow1.style.display = 'grid';
 
     if(houseSpecsRow2)
       houseSpecsRow2.style.display = 'grid';
 
-
-    // Clear lot fields
     if(lotAreaInput)
       lotAreaInput.value = '';
 
-       if(frontageInput)
-      frontageInput.value = '';
-
-    if(pricePerSqmInput)
-      pricePerSqmInput.value = '';
-
-  }
-
-
-  /* =========================
-     OTHER PROPERTY TYPES
-  ========================= */
-
-  else{
-
-  // COMMERCIAL UNIT
-  if(type === 'Commercial Unit'){
-
-    // Hide Lot Area
-    if(lotAreaField)
-      lotAreaField.style.display = 'none';
-
-    // Hide Frontage
-    if(frontageField)
-      frontageField.style.display = 'none';
-
-    // Hide Price per sqm
-    if(pricePerSqmField)
-      pricePerSqmField.style.display = 'none';
-
-    // Show Floor Area / Bedrooms
-    if(houseSpecsRow1)
-      houseSpecsRow1.style.display = 'grid';
-
-    // Show Bathrooms / Parking
-    if(houseSpecsRow2)
-      houseSpecsRow2.style.display = 'grid';
-
-    // Clear Lot Area
-    if(lotAreaInput)
-      lotAreaInput.value = '';
-
-    // Clear Frontage
     if(frontageInput)
       frontageInput.value = '';
 
-    // Clear Price per sqm
     if(pricePerSqmInput)
       pricePerSqmInput.value = '';
 
   }
 
-  // OTHER PROPERTY TYPES
+
+  /* COMMERCIAL UNIT */
+
+  else if(type === 'Commercial Unit'){
+
+    if(lotAreaField)
+      lotAreaField.style.display = 'none';
+
+    if(frontageField)
+      frontageField.style.display = 'none';
+
+    if(pricePerSqmField)
+      pricePerSqmField.style.display = 'none';
+
+    if(houseSpecsRow1)
+      houseSpecsRow1.style.display = 'grid';
+
+    if(houseSpecsRow2)
+      houseSpecsRow2.style.display = 'grid';
+
+    if(lotAreaInput)
+      lotAreaInput.value = '';
+
+    if(frontageInput)
+      frontageInput.value = '';
+
+    if(pricePerSqmInput)
+      pricePerSqmInput.value = '';
+
+  }
+
+
+  /* OTHER PROPERTY TYPES */
+
   else{
 
     if(lotAreaField)
@@ -3812,10 +3762,8 @@ if(
     if(houseSpecsRow2)
       houseSpecsRow2.style.display = 'grid';
 
-        if(frontageInput)
+    if(frontageInput)
       frontageInput.value = '';
-
-  }
 
   }
 
