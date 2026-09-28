@@ -4016,6 +4016,122 @@ ${
 }
 
 
+        <a
+          class="btn"
+          href="#contact"
+        >
+          INQUIRE
+        </a>
+
+      </div>
+
+    </article>
+
+`
+    )
+    .join('');
+
+  /* =========================================================
+     ADMIN MANAGEMENT LIST
+  ========================================================= */
+
+  if(!manage){
+
+    return;
+
+  }
+
+
+  const admin =
+    await isAdmin();
+
+
+  if(!admin){
+
+    manage.innerHTML =
+      '<p class="help">Login as admin to manage projects.</p>';
+
+    return;
+
+  }
+
+
+  manage.innerHTML =
+    properties.map(
+      property => `
+
+        <div
+          style="
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            gap:10px;
+            border:1px solid #ddd;
+            padding:10px;
+            border-radius:8px;
+            margin:7px 0;
+          "
+        >
+
+          <span>
+
+            <b>
+              ${escapeHtml(
+                property.name
+              )}
+            </b>
+
+            <br>
+
+            <small>
+
+              ${escapeHtml(
+                property.location || ''
+              )}
+
+              •
+
+              ${escapeHtml(
+                property.price ||
+                'No price'
+              )}
+
+            </small>
+
+          </span>
+
+
+          <span class="property-actions">
+
+            <button
+              class="secondary"
+              onclick="editProperty(${Number(
+                property.id
+              )})"
+            >
+              Edit
+            </button>
+
+
+            <button
+              class="secondary"
+              onclick="deleteProperty(${Number(
+                property.id
+              )})"
+            >
+              Delete
+            </button>
+
+          </span>
+
+        </div>
+
+      `
+    ).join('');
+
+}
+
+
 /* =========================================================
    INITIALIZE WEBSITE
 ========================================================= */
@@ -4035,3 +4151,5 @@ document.addEventListener(
 
 </body>
 </html>
+```
+
