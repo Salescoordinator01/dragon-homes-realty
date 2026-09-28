@@ -4032,105 +4032,96 @@ async function renderProperties(){
 
       let paymentDetails = '';
 
-      if(
-        property.reservation_fee ||
-        property.equity ||
-        property.monthly_payment ||
-        property.promo ||
-        property.payment_terms
-      ){
+if(
+  property.reservation_fee ||
+  property.equity ||
+  property.monthly_payment ||
+  property.promo ||
+  property.payment_terms
+){
 
-        paymentDetails = `
+  paymentDetails = `
 
-          <div
-            style="
-              margin-top:14px;
-              padding:14px;
-              background:#f7f9ff;
-              border-left:4px solid #1428a0;
-              border-radius:8px;
-            "
-          >
+    <div
+      style="
+        margin-top:14px;
+        padding:14px;
+        background:#f7f9ff;
+        border-left:4px solid #1428a0;
+        border-radius:8px;
+      "
+    >
 
-            <strong
-              style="
-                display:block;
-                color:#1428a0;
-                margin-bottom:8px;
-              "
-            >
-              PAYMENT DETAILS
-            </strong>
+      <strong
+        style="
+          display:block;
+          color:#1428a0;
+          margin-bottom:8px;
+        "
+      >
+        PAYMENT DETAILS
+      </strong>
 
-            ${
-              property.reservation_fee
-                ? `
-                  <div>
-                    <b>Reservation:</b>
-                    ${escapeHtml(
-                      property.reservation_fee
-                    )}
-                  </div>
-                `
-                : ''
-            }
-
-            ${
-              property.equity
-                ? `
-                  <div>
-                    <b>Equity:</b>
-                    ${escapeHtml(
-                      property.equity
-                    )}
-                  </div>
-                `
-                : ''
-            }
-
-            ${
-              property.monthly_payment
-                ? `
-                  <div>
-                    <b>Monthly:</b>
-                    ${escapeHtml(
-                      property.monthly_payment
-                    )}
-                  </div>
-                `
-                : ''
-            }
-
-            ${
-              property.promo
-                ? `
-                  <div>
-                    <b>Promo:</b>
-                    ${escapeHtml(
-                      property.promo
-                    )}
-                  </div>
-                `
-                : ''
-            }
-
-            ${
-              property.payment_terms
-                ? `
-                  <div>
-                    <b>Terms:</b>
-                    ${escapeHtml(
-                      property.payment_terms
-                    )}
-                  </div>
-                `
-                : ''
-            }
-
-         
-
-        `;
+      ${
+        property.reservation_fee
+          ? `
+            <div>
+              <b>Reservation:</b>
+              ${escapeHtml(property.reservation_fee)}
+            </div>
+          `
+          : ''
       }
+
+      ${
+        property.equity
+          ? `
+            <div>
+              <b>Equity:</b>
+              ${escapeHtml(property.equity)}
+            </div>
+          `
+          : ''
+      }
+
+      ${
+        property.monthly_payment
+          ? `
+            <div>
+              <b>Monthly:</b>
+              ${escapeHtml(property.monthly_payment)}
+            </div>
+          `
+          : ''
+      }
+
+      ${
+        property.promo
+          ? `
+            <div>
+              <b>Promo:</b>
+              ${escapeHtml(property.promo)}
+            </div>
+          `
+          : ''
+      }
+
+      ${
+        property.payment_terms
+          ? `
+            <div>
+              <b>Terms:</b>
+              ${escapeHtml(property.payment_terms)}
+            </div>
+          `
+          : ''
+      }
+
+    </div>
+
+  `;
+
+}
 
       return `
 
