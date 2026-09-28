@@ -4317,12 +4317,15 @@ if(
 
             •
 
-           ${property.price
-  ? '₱' + Number(
+${property.price
+  ? Number(
       String(property.price).replace(/\D/g, '')
-    ).toLocaleString('en-PH')
+    ).toLocaleString('en-PH', {
+      style: 'currency',
+      currency: 'PHP',
+      maximumFractionDigits: 0
+    })
   : 'No price'}
-
           </small>
 
         </span>
