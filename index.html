@@ -2082,73 +2082,137 @@ async function openEditor(){
 
   try{
 
-    await supabaseClient.auth.signOut();
+    // Check if Supabase loaded
+    if(
+      typeof supabase === 'undefined' ||
+      !supabaseClient
+    ){
+      alert(
+        'Supabase is not loading. Please refresh the website.'
+      );
+      return;
+    }
 
-    const email =
-      prompt('Admin email:');
+    // If already logged in as admin, open editor directly
+    const alreadyAdmin = await isAdmin();
 
-    if(!email){
+    if(alreadyAdmin){
+
+      document.getElementById('editBtn').textContent =
+        '✏️ EDIT WEBSITE';
+
+      textEls.forEach(el => {
+        el.contentEditable = 'true';
+      });
+
+      document
+        .getElementById('editor')
+        .classList.add('open');
+
+      document.body.classList.add('editing');
+
+      const d = data();
+
+      document.getElementById('seoTitle').value =
+        d.seoTitle || document.title;
+
+      document.getElementById('seoDesc').value =
+        d.seoDesc ||
+        document.querySelector(
+          'meta[name="description"]'
+        ).content;
+
+      document.getElementById('card1PriceInput').value =
+        d.price_card1 ||
+        document.querySelector(
+          '[data-key="card1Price"]'
+        ).textContent.trim();
+
+      document.getElementById('card2PriceInput').value =
+        d.price_card2 ||
+        document.querySelector(
+          '[data-key="card2Price"]'
+        ).textContent.trim();
+
+      document.getElementById('card3PriceInput').value =
+        d.price_card3 ||
+        document.querySelector(
+          '[data-key="card3Price"]'
+        ).textContent.trim();
+
+      document.getElementById('featurePriceInput').value =
+        d.price_feature ||
+        document.querySelector(
+          '[data-key="price"]'
+        ).textContent.trim();
+
+      syncPreviews();
+
+      await renderProperties();
 
       return;
-
     }
 
 
-    const password =
-      prompt('Admin password:');
+    // LOGIN
+    const email = prompt(
+      'Admin email:'
+    );
+
+    if(!email){
+      return;
+    }
+
+
+    const password = prompt(
+      'Admin password:'
+    );
 
     if(!password){
-
       return;
-
     }
 
 
     const {
       data: authData,
       error
-    } =
-      await supabaseClient.auth.signInWithPassword({
-
-        email:email.trim(),
-
-        password:password
-
-      });
+    } = await supabaseClient.auth.signInWithPassword({
+      email: email.trim(),
+      password: password
+    });
 
 
     if(error){
 
+      console.error(
+        'Supabase login error:',
+        error
+      );
+
       alert(
-        'Login failed: ' +
+        'Login failed:\n\n' +
         error.message
       );
 
       return;
-
     }
 
 
-    const session =
-      authData.session;
-
-
     if(
-      !session ||
-      !session.user
+      !authData ||
+      !authData.user
     ){
 
       alert(
-        'Admin login required.'
+        'Login failed. No user session was created.'
       );
 
       return;
-
     }
 
 
     const loggedEmail =
-      session.user.email || '';
+      authData.user.email || '';
 
 
     if(
@@ -2157,27 +2221,23 @@ async function openEditor(){
     ){
 
       alert(
-        'Access denied. Admin only.'
+        'Access denied. Admin account only.'
       );
 
       await supabaseClient.auth.signOut();
 
       return;
-
     }
 
 
-    document
-      .getElementById('editBtn')
-      .textContent =
+    // ADMIN SUCCESS
+    document.getElementById('editBtn').textContent =
       '✏️ EDIT WEBSITE';
 
 
-    textEls.forEach(
-      el => {
-        el.contentEditable = 'true';
-      }
-    );
+    textEls.forEach(el => {
+      el.contentEditable = 'true';
+    });
 
 
     document
@@ -2193,74 +2253,71 @@ async function openEditor(){
     const d = data();
 
 
-    document.getElementById(
-      'seoTitle'
-    ).value =
+    document.getElementById('seoTitle').value =
       d.seoTitle ||
       document.title;
 
 
-    document.getElementById(
-      'seoDesc'
-    ).value =
+    document.getElementById('seoDesc').value =
       d.seoDesc ||
       document.querySelector(
         'meta[name="description"]'
       ).content;
 
 
-    document.getElementById(
-      'card1PriceInput'
-    ).value =
+    document.getElementById('card1PriceInput').value =
       d.price_card1 ||
       document.querySelector(
         '[data-key="card1Price"]'
-      ).textContent;
+      ).textContent.trim();
 
 
-    document.getElementById(
-      'card2PriceInput'
-    ).value =
+    document.getElementById('card2PriceInput').value =
       d.price_card2 ||
       document.querySelector(
         '[data-key="card2Price"]'
-      ).textContent;
+      ).textContent.trim();
 
 
-    document.getElementById(
-      'card3PriceInput'
-    ).value =
+    document.getElementById('card3PriceInput').value =
       d.price_card3 ||
       document.querySelector(
         '[data-key="card3Price"]'
-      ).textContent;
+      ).textContent.trim();
 
 
-    document.getElementById(
-      'featurePriceInput'
-    ).value =
+    document.getElementById('featurePriceInput').value =
       d.price_feature ||
       document.querySelector(
         '[data-key="price"]'
-      ).textContent;
+      ).textContent.trim();
 
 
     syncPreviews();
 
     await renderProperties();
 
+
+    showToast(
+      'Admin login successful.'
+    );
+
+
   }catch(error){
 
-    console.error(error);
+    console.error(
+      'OPEN EDITOR ERROR:',
+      error
+    );
 
     alert(
-      'Something went wrong while opening the editor.'
+      'Something went wrong.\n\n' +
+      error.message
     );
 
   }
 
 }
-
 
 /* =========================================================
    CLOSE EDITOR
