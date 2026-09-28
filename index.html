@@ -1576,7 +1576,8 @@ footer{
     CONDOMINIUM
   </option>
 
-  <option value="Commercial">
+  <option value="Commercial Unit">
+  <option value="Commercial Lot">COMMERCIAL LOT</option>
     COMMERCIAL
   </option>
 
@@ -3642,44 +3643,61 @@ function togglePricePerSqmField(){
      LOT ONLY
   ========================= */
 
-  if(type === 'Lot Only'){
+ /* =========================
+   LOT ONLY / COMMERCIAL LOT
+========================= */
 
-    // Show Lot Area
-    if(lotAreaField)
-      lotAreaField.style.display = 'block';
+if(
+  type === 'Lot Only' ||
+  type === 'Commercial Lot'
+){
 
-    // Show Frontage
-    if(frontageField)
-      frontageField.style.display = 'block';
+  if(lotAreaField)
+    lotAreaField.style.display = 'block';
 
-    // Show Price per sqm
-    if(pricePerSqmField)
-      pricePerSqmField.style.display = 'block';
+  if(frontageField)
+    frontageField.style.display = 'block';
 
+  if(pricePerSqmField)
+    pricePerSqmField.style.display =
+      type === 'Lot Only'
+        ? 'block'
+        : 'none';
 
-    // Hide house specs
-    if(houseSpecsRow1)
-      houseSpecsRow1.style.display = 'none';
+  if(houseSpecsRow1)
+    houseSpecsRow1.style.display = 'none';
 
-    if(houseSpecsRow2)
-      houseSpecsRow2.style.display = 'none';
+  if(houseSpecsRow2)
+    houseSpecsRow2.style.display = 'none';
 
+  if(type === 'Commercial Lot'){
 
-    // Clear house specs
-    if(floorAreaField)
-      document.getElementById('newPropFloorArea').value = '';
-
-    if(bedroomsField)
-      document.getElementById('newPropBedrooms').value = '';
-
-    if(bathroomsField)
-      document.getElementById('newPropBathrooms').value = '';
-
-    if(parkingField)
-      document.getElementById('newPropParking').value = '';
+    if(pricePerSqmInput)
+      pricePerSqmInput.value = '';
 
   }
 
+  if(floorAreaField)
+    document.getElementById(
+      'newPropFloorArea'
+    ).value = '';
+
+  if(bedroomsField)
+    document.getElementById(
+      'newPropBedrooms'
+    ).value = '';
+
+  if(bathroomsField)
+    document.getElementById(
+      'newPropBathrooms'
+    ).value = '';
+
+  if(parkingField)
+    document.getElementById(
+      'newPropParking'
+    ).value = '';
+
+}
 
   /* =========================
      CONDOMINIUM
