@@ -3713,58 +3713,19 @@ function togglePricePerSqmField(){
       lotAreaInput.value = '';
 
     if(frontageInput)
-      frontageInput.value = '';
-
-    if(pricePerSqmInput)
-      pricePerSqmInput.value = '';
-
-  }
-
-
- /* =========================
-   HOUSE & LOT / COMMERCIAL / OTHER
-========================= */
-
-else{
-
-  // Show Lot Area
-  if(lotAreaField)
-    lotAreaField.style.display = 'block';
-
-  // Hide Frontage
-  if(frontageField)
-    frontageField.style.display = 'none';
-
-  // Show Price per sqm
-  if(pricePerSqmField)
-    pricePerSqmField.style.display = 'block';
-
-  // Show house specs
-  if(houseSpecsRow1)
-    houseSpecsRow1.style.display = 'grid';
-
-  if(houseSpecsRow2)
-    houseSpecsRow2.style.display = 'grid';
-
-  // Clear Frontage
-  if(frontageInput)
-    frontageInput.value = '';
+  frontageInput.value = '';
 
 }
 
 
+/* =========================================================
+   RESET PROPERTY FORM
+========================================================= */
 
-
-  
 function resetPropertyForm(){
 
-  editingPropertyId =
-    null;
-
-
-  editingPropertyImage =
-    '';
-
+  editingPropertyId = null;
+  editingPropertyImage = '';
 
   [
     'newPropName',
@@ -3784,66 +3745,63 @@ function resetPropertyForm(){
     'newPropMonthly',
     'newPropPromo',
     'newPropTerms'
-  ].forEach(
-    id => {
+  ].forEach(id => {
 
-      const element =
-        document.getElementById(
-          id
-        );
+    const element =
+      document.getElementById(id);
 
-
-      if(element){
-
-        element.value = '';
-
-      }
-
+    if(element){
+      element.value = '';
     }
-  );
 
+  });
 
   document.getElementById(
     'newPropType'
   ).value = '';
 
-
   document.getElementById(
     'newPropStatus'
-  ).value =
-    'Available';
-
+  ).value = 'Available';
 
   document.getElementById(
     'newPropImage'
   ).value = '';
-
 
   const preview =
     document.getElementById(
       'newPropPreview'
     );
 
-
   preview.src = '';
-
-  preview.style.display =
-    'none';
-
+  preview.style.display = 'none';
 
   document.getElementById(
     'propertyFormTitle'
-  ).textContent =
-    'New Project';
-
+  ).textContent = 'New Project';
 
   document.getElementById(
     'cancelEditBtn'
-  ).style.display =
-    'none';
+  ).style.display = 'none';
+
+  /* Reset property field visibility */
+
+  if(document.getElementById('lotAreaField'))
+    document.getElementById('lotAreaField').style.display = 'block';
+
+  if(document.getElementById('frontageField'))
+    document.getElementById('frontageField').style.display = 'none';
+
+  if(document.getElementById('pricePerSqmField'))
+    document.getElementById('pricePerSqmField').style.display = 'none';
+
+  if(document.getElementById('houseSpecsRow1'))
+    document.getElementById('houseSpecsRow1').style.display = 'grid';
+
+  if(document.getElementById('houseSpecsRow2'))
+    document.getElementById('houseSpecsRow2').style.display = 'grid';
 
 }
-
 
 /* =========================================================
    DELETE PROPERTY
