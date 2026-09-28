@@ -3904,130 +3904,115 @@ async function renderProperties(){
             </div>
 
 
-            ${
-              property.description
-                ? `
-                  <p>
-                    ${escapeHtml(
-                      property.description
-                    )}
-                  </p>
-                `
-                : ''
-            }
+           ${
+  property.description
+    ? `
+      <p>
+        ${escapeHtml(
+          property.description
+        )}
+      </p>
+    `
+    : ''
+}
 
+${
+  (
+    property.reservation_fee ||
+    property.equity ||
+    property.monthly_payment ||
+    property.promo ||
+    property.payment_terms
+  )
+    ? `
+      <div
+        style="
+          margin-top:14px;
+          padding:14px;
+          background:#f7f9ff;
+          border-left:4px solid #1428a0;
+          border-radius:8px;
+        "
+      >
 
-            <a
-              class="btn"
-              href="#contact"
-            >
-              INQUIRE
-            </a>
-
-          </div>
-
-        </article>
-
-      `
-    ).join('');
-
-
-  /* ADMIN MANAGEMENT LIST */
-
-  if(!manage){
-
-    return;
-
-  }
-
-
-  const admin =
-    await isAdmin();
-
-
-  if(!admin){
-
-    manage.innerHTML =
-      '<p class="help">Login as admin to manage projects.</p>';
-
-    return;
-
-  }
-
-
-  manage.innerHTML =
-    properties.map(
-      property => `
-
-        <div
+        <strong
           style="
-            display:flex;
-            justify-content:space-between;
-            align-items:center;
-            gap:10px;
-            border:1px solid #ddd;
-            padding:10px;
-            border-radius:8px;
-            margin:7px 0;
+            display:block;
+            color:#1428a0;
+            margin-bottom:8px;
           "
         >
+          PAYMENT DETAILS
+        </strong>
 
-          <span>
+        ${
+          property.reservation_fee
+            ? `
+              <div>
+                <b>Reservation:</b>
+                ${escapeHtml(
+                  property.reservation_fee
+                )}
+              </div>
+            `
+            : ''
+        }
 
-            <b>
-              ${escapeHtml(
-                property.name
-              )}
-            </b>
+        ${
+          property.equity
+            ? `
+              <div>
+                <b>Equity:</b>
+                ${escapeHtml(
+                  property.equity
+                )}
+              </div>
+            `
+            : ''
+        }
 
-            <br>
+        ${
+          property.monthly_payment
+            ? `
+              <div>
+                <b>Monthly:</b>
+                ${escapeHtml(
+                  property.monthly_payment
+                )}
+              </div>
+            `
+            : ''
+        }
 
-            <small>
+        ${
+          property.promo
+            ? `
+              <div>
+                <b>Promo:</b>
+                ${escapeHtml(
+                  property.promo
+                )}
+              </div>
+            `
+            : ''
+        }
 
-              ${escapeHtml(
-                property.location || ''
-              )}
+        ${
+          property.payment_terms
+            ? `
+              <div>
+                <b>Terms:</b>
+                ${escapeHtml(
+                  property.payment_terms
+                )}
+              </div>
+            `
+            : ''
+        }
 
-              •
-
-              ${escapeHtml(
-                property.price ||
-                'No price'
-              )}
-
-            </small>
-
-          </span>
-
-
-          <span class="property-actions">
-
-            <button
-              class="secondary"
-              onclick="editProperty(${Number(
-                property.id
-              )})"
-            >
-              Edit
-            </button>
-
-
-            <button
-              class="secondary"
-              onclick="deleteProperty(${Number(
-                property.id
-              )})"
-            >
-              Delete
-            </button>
-
-          </span>
-
-        </div>
-
-      `
-    ).join('');
-
+      </div>
+    `
+    : ''
 }
 
 
