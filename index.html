@@ -2930,16 +2930,11 @@ async function getProperties(){
    UPLOAD PROPERTY IMAGE
 ========================================================= */
 
-async function uploadPropertyImage(
-  file
-){
+async function uploadPropertyImage(file){
 
   if(!file){
-
     return '';
-
   }
-
 
   const extension =
     file.name
@@ -2947,63 +2942,63 @@ async function uploadPropertyImage(
       .pop()
       .toLowerCase();
 
-
   const fileName =
     `${Date.now()}-${crypto.randomUUID()}.${extension}`;
-
 
   const filePath =
     `properties/${fileName}`;
 
-
   const {
-    error
-  } =
-    await supabaseClient
-     .storage
-     .from('property-images')
-     .upload(filePath,file);
-        {
-          cacheControl:'3600',
-          upsert:false
-        }
-      );
+    data: uploadData,
+    error: uploadError
+  } = await supabaseClient
+    .storage
+    .from('property-images')
+    .upload(
+      filePath,
+      file,
+      {
+        cacheControl: '3600',
+        upsert: false
+      }
+    );
 
-
-  if(error){
+  if(uploadError){
 
     console.error(
       'Image upload error:',
-      error
+      uploadError
     );
-
 
     alert(
       'Image upload failed: ' +
-      error.message
+      uploadError.message
     );
-
 
     return '';
 
   }
 
-
   const {
-    data
-  } =
-    supabaseClient
-      .storage
-      .from('Property images')
-      .getPublicUrl(
-        filePath
-      );
+    data: publicData
+  } = supabaseClient
+    .storage
+    .from('property-images')
+    .getPublicUrl(filePath);
 
+  if(!publicData || !publicData.publicUrl){
 
-  return data.publicUrl;
+    alert(
+      'Image uploaded, but public URL could not be created.'
+    );
+
+    return '';
+
+  }
+
+  return publicData.publicUrl;
 
 }
-
 
 /* =========================================================
    PREVIEW NEW PROPERTY IMAGE
