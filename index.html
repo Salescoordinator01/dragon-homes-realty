@@ -1555,41 +1555,44 @@ footer{
               Property Type
             </label>
 
-            <select id="newPropType">
+         <select
+  id="newPropType"
+  onchange="togglePricePerSqmField()"
+>
 
-              <option value="">
-                Select Property Type
-              </option>
+  <option value="">
+    Select Property Type
+  </option>
 
-              <option>
-                House & Lot
-              </option>
+  <option value="House & Lot">
+    HOUSE & LOT
+  </option>
 
-              <option>
-                Lot
-              </option>
+  <option value="Lot Only">
+    LOT ONLY
+  </option>
 
-              <option>
-                Condominium
-              </option>
+  <option value="Condominium">
+    CONDOMINIUM
+  </option>
 
-              <option>
-                Commercial
-              </option>
+  <option value="Commercial">
+    COMMERCIAL
+  </option>
 
-              <option>
-                Townhouse
-              </option>
+  <option value="Townhouse">
+    TOWNHOUSE
+  </option>
 
-              <option>
-                Apartment
-              </option>
+  <option value="Apartment">
+    APARTMENT
+  </option>
 
-              <option>
-                Other
-              </option>
+  <option value="Other">
+    OTHER
+  </option>
 
-            </select>
+</select>
 
           </div>
 
@@ -1623,18 +1626,38 @@ footer{
 
         <div class="grid2">
 
-          <div class="field">
+  <div class="field">
 
-            <label>
-              Price
-            </label>
+    <label>
+      Price
+    </label>
 
-            <input
-              id="newPropPrice"
-              placeholder="e.g. ₱3,500,000"
-            >
+    <input
+      id="newPropPrice"
+      placeholder="e.g. ₱3,500,000"
+    >
 
-          </div>
+  </div>
+
+
+ <div
+  class="field"
+  id="pricePerSqmField"
+  style="display:none;"
+>
+
+    <label>
+      Price per sqm
+    </label>
+
+    <input
+      id="newPropPricePerSqm"
+      placeholder="e.g. ₱150,000 / sqm"
+    >
+
+  </div>
+
+</div>
 
 
           <div class="field">
@@ -3141,16 +3164,23 @@ async function addProperty(){
           'newPropStatus'
         )
         .value,
+price:
+  document
+    .getElementById(
+      'newPropPrice'
+    )
+    .value
+    .trim(),
 
-    price:
-      document
-        .getElementById(
-          'newPropPrice'
-        )
-        .value
-        .trim(),
+price_per_sqm:
+  document
+    .getElementById(
+      'newPropPricePerSqm'
+    )
+    .value
+    .trim(),
 
-    lot_area:
+lot_area:
       document
         .getElementById(
           'newPropLotArea'
@@ -3413,7 +3443,10 @@ async function editProperty(
     'newPropLotArea'
   ).value =
     property.lot_area || '';
-
+document.getElementById(
+  'newPropPricePerSqm'
+).value =
+  property.price_per_sqm || '';
 
   document.getElementById(
     'newPropFloorArea'
@@ -3535,7 +3568,40 @@ function cancelPropertyEdit(){
 /* =========================================================
    RESET PROPERTY FORM
 ========================================================= */
+function togglePricePerSqmField(){
 
+  const type =
+    document.getElementById(
+      'newPropType'
+    ).value;
+
+  const field =
+    document.getElementById(
+      'pricePerSqmField'
+    );
+
+  const input =
+    document.getElementById(
+      'newPropPricePerSqm'
+    );
+
+  if(!field || !input) return;
+
+  if(type === 'Lot Only'){
+
+    field.style.display = 'block';
+
+  }else{
+
+    field.style.display = 'none';
+
+    input.value = '';
+
+  }
+
+}
+
+  
 function resetPropertyForm(){
 
   editingPropertyId =
