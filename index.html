@@ -2960,11 +2960,9 @@ async function uploadPropertyImage(
     error
   } =
     await supabaseClient
-      .storage
-     .from('Property images')
-      .upload(
-        filePath,
-        file,
+     .storage
+     .from('property-images')
+     .upload(filePath,file);
         {
           cacheControl:'3600',
           upsert:false
