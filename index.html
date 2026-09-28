@@ -4317,9 +4317,11 @@ if(
 
             •
 
-            ${escapeHtml(
-              property.price || 'No price'
-            )}
+           ${property.price
+  ? '₱' + Number(
+      String(property.price).replace(/\D/g, '')
+    ).toLocaleString('en-PH')
+  : 'No price'}
 
           </small>
 
