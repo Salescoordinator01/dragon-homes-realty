@@ -4157,9 +4157,15 @@ async function renderProperties(){
               )}
             </div>
 
-            <h3>
-              ${escapeHtml(property.name)}
-            </h3>
+            <h3
+  style="
+    font-weight:800;
+    margin-bottom:8px;
+    line-height:1.25;
+  "
+>
+  ${escapeHtml(property.name)}
+</h3>
 
             <div class="meta">
 
@@ -4178,15 +4184,22 @@ async function renderProperties(){
 
             </div>
 
-            <div class="price">
+           <div
+  class="price"
+  style="
+    color:#c62828;
+    font-weight:800;
+    font-size:20px;
+    margin:8px 0;
+  "
+>
 
-              ${escapeHtml(
-                property.price ||
-                'Price upon request'
-              )}
+  ${escapeHtml(
+    property.price ||
+    'Price upon request'
+  )}
 
-            </div>
-
+</div>
             ${
               details
                 ? `
