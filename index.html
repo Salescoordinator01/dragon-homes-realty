@@ -2961,7 +2961,7 @@ async function uploadPropertyImage(
   } =
     await supabaseClient
       .storage
-      .from('property-images')
+     .from('Property images')
       .upload(
         filePath,
         file,
@@ -2996,7 +2996,7 @@ async function uploadPropertyImage(
   } =
     supabaseClient
       .storage
-      .from('property-images')
+      .from('Property images')
       .getPublicUrl(
         filePath
       );
