@@ -1660,7 +1660,10 @@ footer{
 </div>
 
 
-          <div class="field">
+         <div
+  class="field"
+  id="lotAreaField"
+>
 
             <label>
               Lot Area
@@ -3585,11 +3588,41 @@ function togglePricePerSqmField(){
       'newPropPricePerSqm'
     );
 
-  if(!field || !input) return;
+  const lotAreaField =
+    document.getElementById(
+      'lotAreaField'
+    );
+
+  const lotAreaInput =
+    document.getElementById(
+      'newPropLotArea'
+    );
+
+  if(
+    !field ||
+    !input ||
+    !lotAreaField ||
+    !lotAreaInput
+  ) return;
+
 
   if(type === 'Lot Only'){
 
     field.style.display = 'block';
+
+    lotAreaField.style.display = 'block';
+
+
+  }else if(type === 'Condominium'){
+
+    field.style.display = 'none';
+
+    input.value = '';
+
+    lotAreaField.style.display = 'none';
+
+    lotAreaInput.value = '';
+
 
   }else{
 
@@ -3597,9 +3630,14 @@ function togglePricePerSqmField(){
 
     input.value = '';
 
+    lotAreaField.style.display = 'block';
+
   }
 
 }
+
+
+function resetPropertyForm(){
 
   
 function resetPropertyForm(){
@@ -3616,6 +3654,7 @@ function resetPropertyForm(){
     'newPropName',
     'newPropLocation',
     'newPropPrice',
+    'newPropPricePerSqm',
     'newPropLotArea',
     'newPropFloorArea',
     'newPropBedrooms',
