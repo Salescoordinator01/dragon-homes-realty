@@ -1730,7 +1730,11 @@ footer{
 
 </div>
 
-
+<div class="field" id="storeysField" style="display:none;">
+  <label>No. of Storeys</label>
+  <input id="newPropStoreys" placeholder="e.g. 3 Storey">
+</div>
+        
 <div class="grid2" id="houseSpecsRow2">
 
   <div class="field" id="bathroomsField">
@@ -3250,7 +3254,8 @@ frontage:
         )
         .value
         .trim(),
-
+storeys: document.getElementById('newPropStoreys').value.trim(),
+    
     description:
       document
         .getElementById(
@@ -3509,7 +3514,7 @@ document.getElementById(
     'newPropParking'
   ).value =
     property.parking || '';
-
+document.getElementById('newPropStoreys').value = property.storeys || '';
 
   document.getElementById(
     'newPropDesc'
@@ -3635,6 +3640,9 @@ function togglePricePerSqmField(){
 
   const houseSpecsRow2 =
     document.getElementById('houseSpecsRow2');
+  
+  const storeysField = document.getElementById('storeysField');
+  const storeysInput = document.getElementById('newPropStoreys');
 
 
   /* LOT ONLY / COMMERCIAL LOT */
@@ -3762,7 +3770,12 @@ function togglePricePerSqmField(){
 
     if(frontageInput)
       frontageInput.value = '';
-
+   if(type === 'Townhouse'){
+      storeysField.style.display = 'block';
+   }else{
+  storeysField.style.display = 'none';
+  storeysInput.value = '';
+    }
   }
 
 }
@@ -3791,6 +3804,7 @@ function resetPropertyForm(){
     'newPropBedrooms',
     'newPropBathrooms',
     'newPropParking',
+    'newPropStoreys',
     'newPropDesc',
     'newPropFeatures',
     'newPropReservation',
@@ -4041,7 +4055,12 @@ async function renderProperties(){
           'Parking: ' +
           escapeHtml(property.parking);
       }
-
+if(property.storeys){
+  details +=
+    'Storeys: ' +
+    escapeHtml(property.storeys) +
+    '<br>';
+}
       let paymentDetails = '';
 
 if(
