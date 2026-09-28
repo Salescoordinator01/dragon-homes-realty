@@ -1643,10 +1643,7 @@ footer{
       Price
     </label>
 
-    <input
-      id="newPropPrice"
-      placeholder="e.g. ₱3,500,000"
-    >
+   <input id="newPropPrice" placeholder="e.g. ₱3,500,000" oninput="formatPrice(this)">
 
   </div>
 
@@ -3095,11 +3092,19 @@ function previewNewProperty(
 
 }
 
+function formatPrice(input){
+  let value = input.value.replace(/\D/g, '');
 
+  if(!value){
+    input.value = '';
+    return;
+  }
+
+  input.value = '₱' + Number(value).toLocaleString('en-PH');
+}
 /* =========================================================
    ADD / UPDATE PROPERTY
 ========================================================= */
-
 async function addProperty(){
 
   const admin =
