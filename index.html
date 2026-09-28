@@ -1660,86 +1660,96 @@ footer{
 </div>
 
 
-         <div
+ <div
   class="field"
   id="lotAreaField"
 >
+  <label>
+    Lot Area
+  </label>
+  <input
+    id="newPropLotArea"
+    placeholder="e.g. 102 sqm"
+  >
+</div>
 
-            <label>
-              Lot Area
-            </label>
-
-            <input
-              id="newPropLotArea"
-              placeholder="e.g. 102 sqm"
-            >
-
-
-        </div>
-
-
-        <div class="grid2">
-
-          <div class="field">
-
-            <label>
-              Floor Area
-            </label>
-
-            <input
-              id="newPropFloorArea"
-              placeholder="e.g. 120 sqm"
-            >
-
-          </div>
+<div
+  class="field"
+  id="frontageField"
+  style="display:none;"
+>
+  <label>
+    Frontage
+  </label>
+  <input
+    id="newPropFrontage"
+    placeholder="e.g. 10 meters"
+  >
+</div>
 
 
-          <div class="field">
+      <div class="grid2" id="houseSpecsRow1">
 
-            <label>
-              Bedrooms
-            </label>
+  <div class="field" id="floorAreaField">
 
-            <input
-              id="newPropBedrooms"
-              placeholder="e.g. 3"
-            >
+    <label>
+      Floor Area
+    </label>
 
-          </div>
+    <input
+      id="newPropFloorArea"
+      placeholder="e.g. 120 sqm"
+    >
 
-        </div>
-
-
-        <div class="grid2">
-
-          <div class="field">
-
-            <label>
-              Bathrooms
-            </label>
-
-            <input
-              id="newPropBathrooms"
-              placeholder="e.g. 2"
-            >
-
-          </div>
+  </div>
 
 
-          <div class="field">
+  <div class="field" id="bedroomsField">
 
-            <label>
-              Parking
-            </label>
+    <label>
+      Bedrooms
+    </label>
 
-            <input
-              id="newPropParking"
-              placeholder="e.g. 2 cars"
-            >
+    <input
+      id="newPropBedrooms"
+      placeholder="e.g. 3"
+    >
 
-          </div>
+  </div>
 
-        </div>
+</div>
+
+
+<div class="grid2" id="houseSpecsRow2">
+
+  <div class="field" id="bathroomsField">
+
+    <label>
+      Bathrooms
+    </label>
+
+    <input
+      id="newPropBathrooms"
+      placeholder="e.g. 2"
+    >
+
+  </div>
+
+
+  <div class="field" id="parkingField">
+
+    <label>
+      Parking
+    </label>
+
+    <input
+      id="newPropParking"
+      placeholder="e.g. 2 cars"
+    >
+
+  </div>
+
+</div>
 
 
         <div class="field">
@@ -3189,7 +3199,15 @@ lot_area:
         )
         .value
         .trim(),
-
+    
+frontage:
+  document
+    .getElementById(
+      'newPropFrontage'
+    )
+    .value
+    .trim(),
+    
     floor_area:
       document
         .getElementById(
@@ -3447,6 +3465,12 @@ async function editProperty(
     'newPropLotArea'
   ).value =
     property.lot_area || '';
+  
+  document.getElementById(
+  'newPropFrontage'
+).value =
+  property.frontage || '';
+  
 document.getElementById(
   'newPropPricePerSqm'
 ).value =
@@ -3575,63 +3599,161 @@ function cancelPropertyEdit(){
 function togglePricePerSqmField(){
 
   const type =
-    document.getElementById(
-      'newPropType'
-    ).value;
+    document.getElementById('newPropType').value;
 
-  const field =
-    document.getElementById(
-      'pricePerSqmField'
-    );
+  const pricePerSqmField =
+    document.getElementById('pricePerSqmField');
 
-  const input =
-    document.getElementById(
-      'newPropPricePerSqm'
-    );
+  const pricePerSqmInput =
+    document.getElementById('newPropPricePerSqm');
 
   const lotAreaField =
-    document.getElementById(
-      'lotAreaField'
-    );
+    document.getElementById('lotAreaField');
 
   const lotAreaInput =
-    document.getElementById(
-      'newPropLotArea'
-    );
+    document.getElementById('newPropLotArea');
 
-  if(
-    !field ||
-    !input ||
-    !lotAreaField ||
-    !lotAreaInput
-  ) return;
+  const frontageField =
+    document.getElementById('frontageField');
 
+  const frontageInput =
+    document.getElementById('newPropFrontage');
+
+  const houseSpecsRow1 =
+    document.getElementById('houseSpecsRow1');
+
+  const houseSpecsRow2 =
+    document.getElementById('houseSpecsRow2');
+
+  const floorAreaField =
+    document.getElementById('floorAreaField');
+
+  const bedroomsField =
+    document.getElementById('bedroomsField');
+
+  const bathroomsField =
+    document.getElementById('bathroomsField');
+
+  const parkingField =
+    document.getElementById('parkingField');
+
+
+  /* =========================
+     LOT ONLY
+  ========================= */
 
   if(type === 'Lot Only'){
 
-    field.style.display = 'block';
+    // Show Lot Area
+    if(lotAreaField)
+      lotAreaField.style.display = 'block';
 
-    lotAreaField.style.display = 'block';
+    // Show Frontage
+    if(frontageField)
+      frontageField.style.display = 'block';
 
-
-  }else if(type === 'Condominium'){
-
-    field.style.display = 'none';
-
-    input.value = '';
-
-    lotAreaField.style.display = 'none';
-
-    lotAreaInput.value = '';
+    // Show Price per sqm
+    if(pricePerSqmField)
+      pricePerSqmField.style.display = 'block';
 
 
-  }else{
+    // Hide house specs
+    if(houseSpecsRow1)
+      houseSpecsRow1.style.display = 'none';
 
-    field.style.display = 'none';
+    if(houseSpecsRow2)
+      houseSpecsRow2.style.display = 'none';
 
-    input.value = '';
 
-    lotAreaField.style.display = 'block';
+    // Clear house specs
+    if(floorAreaField)
+      document.getElementById('newPropFloorArea').value = '';
+
+    if(bedroomsField)
+      document.getElementById('newPropBedrooms').value = '';
+
+    if(bathroomsField)
+      document.getElementById('newPropBathrooms').value = '';
+
+    if(parkingField)
+      document.getElementById('newPropParking').value = '';
+
+  }
+
+
+  /* =========================
+     CONDOMINIUM
+  ========================= */
+
+  else if(type === 'Condominium'){
+
+    // Hide Lot Area
+    if(lotAreaField)
+      lotAreaField.style.display = 'none';
+
+    // Hide Frontage
+    if(frontageField)
+      frontageField.style.display = 'none';
+
+    // Hide Price per sqm
+    if(pricePerSqmField)
+      pricePerSqmField.style.display = 'none';
+
+
+    // Show house/condo specs
+    if(houseSpecsRow1)
+      houseSpecsRow1.style.display = 'grid';
+
+    if(houseSpecsRow2)
+      houseSpecsRow2.style.display = 'grid';
+
+
+    // Clear lot fields
+    if(lotAreaInput)
+      lotAreaInput.value = '';
+
+    if(frontageInput)
+      frontageInput.value = '';
+
+    if(pricePerSqmInput)
+      pricePerSqmInput.value = '';
+
+  }
+
+
+  /* =========================
+     HOUSE & LOT / OTHER
+  ========================= */
+
+  else{
+
+    // Show Lot Area
+    if(lotAreaField)
+      lotAreaField.style.display = 'block';
+
+    // Hide Frontage
+    if(frontageField)
+      frontageField.style.display = 'none';
+
+    // Hide Price per sqm
+    if(pricePerSqmField)
+      pricePerSqmField.style.display = 'none';
+
+
+    // Show house specs
+    if(houseSpecsRow1)
+      houseSpecsRow1.style.display = 'grid';
+
+    if(houseSpecsRow2)
+      houseSpecsRow2.style.display = 'grid';
+
+
+    // Clear Lot Only fields
+    if(frontageInput)
+      frontageInput.value = '';
+
+    if(pricePerSqmInput)
+      pricePerSqmInput.value = '';
 
   }
 
@@ -3657,6 +3779,7 @@ function resetPropertyForm(){
     'newPropPrice',
     'newPropPricePerSqm',
     'newPropLotArea',
+    'newPropFrontage',
     'newPropFloorArea',
     'newPropBedrooms',
     'newPropBathrooms',
