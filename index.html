@@ -3426,6 +3426,8 @@ async function editProperty(
     'newPropType'
   ).value =
     property.property_type || '';
+  
+  togglePricePerSqmField();
 
 
   document.getElementById(
@@ -3636,7 +3638,7 @@ function togglePricePerSqmField(){
 }
 
 
-function resetPropertyForm(){
+
 
   
 function resetPropertyForm(){
@@ -4010,7 +4012,7 @@ async function renderProperties(){
                 : ''
             }
 
-          </div>
+         
 
         `;
       }
