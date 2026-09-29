@@ -1204,11 +1204,13 @@ footer{
           required
         >
 
-        <input
-          type="text"
-          name="property"
-          placeholder="Property of interest"
-        >
+       <input
+  type="text"
+  id="propertyInquiry"
+  name="property"
+  placeholder="Property of interest"
+  readonly
+>
 
         <textarea
           name="message"
@@ -2084,7 +2086,29 @@ function showToast(message){
   );
 
 }
+function selectProperty(propertyName){
 
+  const contactSection =
+    document.getElementById('contact');
+
+  if(contactSection){
+
+    contactSection.scrollIntoView({
+      behavior: 'smooth'
+    });
+
+  }
+
+  const propertyInput =
+    document.getElementById('propertyInquiry');
+
+  if(propertyInput){
+
+    propertyInput.value = propertyName;
+
+  }
+
+}
 
 /* =========================================================
    ADMIN CHECK
@@ -4255,11 +4279,12 @@ if(
             ${paymentDetails}
 
             <a
-              class="btn"
-              href="#contact"
-            >
-              INQUIRE
-            </a>
+  class="btn"
+  href="#contact"
+  onclick="selectProperty('${escapeHtml(property.name)}')"
+>
+  INQUIRE THIS PROPERTY
+</a>
 
           </div>
 
