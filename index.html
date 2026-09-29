@@ -2086,30 +2086,44 @@ function showToast(message){
   );
 
 }
-function selectProperty(propertyName){
-
-  const contactSection =
-    document.getElementById('contact');
-
-  if(contactSection){
-
-    contactSection.scrollIntoView({
-      behavior: 'smooth'
-    });
-
-  }
+async function selectProperty(propertyId){
 
   const propertyInput =
     document.getElementById('propertyInquiry');
 
-  if(propertyInput){
+  const contactSection =
+    document.getElementById('contact');
 
-    propertyInput.value = propertyName;
+  if(!propertyInput){
+    console.error('propertyInquiry field not found.');
+    return;
+  }
+
+  const properties =
+    await getProperties();
+
+  const property =
+    properties.find(
+      p => String(p.id) === String(propertyId)
+    );
+
+  if(property){
+
+    propertyInput.value =
+      property.name || '';
+
+  }
+
+  if(contactSection){
+
+    contactSection.scrollIntoView({
+      behavior:'smooth',
+      block:'start'
+    });
 
   }
 
 }
-
 /* =========================================================
    ADMIN CHECK
 ========================================================= */
@@ -4278,14 +4292,13 @@ if(
 
             ${paymentDetails}
 
-            <a
+ <button
+  type="button"
   class="btn"
-  href="#contact"
-  onclick="selectProperty('${escapeHtml(property.name)}')"
+  onclick="selectProperty('${property.id}')"
 >
   INQUIRE THIS PROPERTY
-</a>
-
+</button>
           </div>
 
         </article>
