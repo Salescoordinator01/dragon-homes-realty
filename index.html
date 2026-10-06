@@ -3425,10 +3425,43 @@ async function uploadPropertyImage(file){
 function previewNewProperty(
   event
 ){
+
+  const file =
+    event.target.files[0];
+
+  if(!file){
+    return;
+  }
+
+  const reader =
+    new FileReader();
+
+  reader.onload = () => {
+
+    const preview =
+      document.getElementById(
+        'newPropPreview'
+      );
+
+    preview.src =
+      reader.result;
+
+    preview.style.display =
+      'block';
+
+  };
+
+  reader.readAsDataURL(file);
+
+}
+
+
 function previewGalleryImages(event){
 
   const preview =
-    document.getElementById('newPropGalleryPreview');
+    document.getElementById(
+      'newPropGalleryPreview'
+    );
 
   if(!preview){
     return;
@@ -3449,14 +3482,26 @@ function previewGalleryImages(event){
       const img =
         document.createElement('img');
 
-      img.src = e.target.result;
+      img.src =
+        e.target.result;
 
-      img.style.width = '100px';
-      img.style.height = '75px';
-      img.style.objectFit = 'cover';
-      img.style.borderRadius = '8px';
-      img.style.margin = '5px';
-      img.style.border = '1px solid #ddd';
+      img.style.width =
+        '100px';
+
+      img.style.height =
+        '75px';
+
+      img.style.objectFit =
+        'cover';
+
+      img.style.borderRadius =
+        '8px';
+
+      img.style.margin =
+        '5px';
+
+      img.style.border =
+        '1px solid #ddd';
 
       preview.appendChild(img);
 
@@ -3467,42 +3512,7 @@ function previewGalleryImages(event){
   });
 
 }
-  const file =
-    event.target.files[0];
 
-
-  if(!file){
-
-    return;
-
-  }
-
-
-  const reader =
-    new FileReader();
-
-
-  reader.onload = () => {
-
-    const preview =
-      document.getElementById(
-        'newPropPreview'
-      );
-
-
-    preview.src =
-      reader.result;
-
-
-    preview.style.display =
-      'block';
-
-  };
-
-
-  reader.readAsDataURL(file);
-
-}
 
 function formatPrice(input){
   let value = input.value.replace(/\D/g, '');
