@@ -3604,19 +3604,32 @@ let galleryImages =
   Array.isArray(editingPropertyGallery)
     ? [...editingPropertyGallery]
     : [];
-
 if(galleryFiles.length){
 
-  const uploadedGallery =
-    await Promise.all(
-      galleryFiles.map(
-        file => uploadPropertyImage(file)
-      )
-    );
+  const uploadedGallery = [];
+
+  for(const file of galleryFiles){
+
+    const uploaded =
+      await uploadPropertyImage(file);
+
+    if(!uploaded){
+
+      alert(
+        'Failed to upload one of the additional photos.'
+      );
+
+      return;
+
+    }
+
+    uploadedGallery.push(uploaded);
+
+  }
 
   galleryImages = [
     ...galleryImages,
-    ...uploadedGallery.filter(Boolean)
+    ...uploadedGallery
   ];
 
 }
