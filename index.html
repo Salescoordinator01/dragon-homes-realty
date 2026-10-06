@@ -713,7 +713,297 @@ footer{
   color: #111 !important;
   background: #fff !important;
 }
-  
+/* PROPERTY GALLERY MODAL */
+
+.property-modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  background:rgba(0,0,0,.75);
+  padding:20px;
+  overflow-y:auto;
+}
+
+.property-modal.open{
+  display:block;
+}
+
+.property-modal-content{
+  position:relative;
+  width:min(1000px, 100%);
+  margin:30px auto;
+  background:#fff;
+  border-radius:16px;
+  overflow:hidden;
+  box-shadow:0 20px 60px rgba(0,0,0,.3);
+}
+
+.property-modal-close{
+  position:absolute;
+  right:15px;
+  top:15px;
+  z-index:10;
+  width:40px;
+  height:40px;
+  border:none;
+  border-radius:50%;
+  background:#fff;
+  color:#222;
+  font-size:20px;
+  cursor:pointer;
+  box-shadow:0 3px 12px rgba(0,0,0,.25);
+}
+
+.property-gallery-main{
+  position:relative;
+  width:100%;
+  height:550px;
+  background:#111;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.property-gallery-main img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+}
+
+.gallery-prev,
+.gallery-next{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  width:45px;
+  height:45px;
+  border:none;
+  border-radius:50%;
+  background:rgba(255,255,255,.9);
+  color:#222;
+  font-size:22px;
+  cursor:pointer;
+}
+
+.gallery-prev{
+  left:15px;
+}
+
+.gallery-next{
+  right:15px;
+}
+
+.gallery-prev:hover,
+.gallery-next:hover{
+  background:#fff;
+}
+
+.property-gallery-counter{
+  text-align:center;
+  padding:8px;
+  font-size:14px;
+  color:#666;
+}
+
+.property-modal-info{
+  padding:25px;
+}
+
+.property-modal-info h2{
+  margin:0 0 6px;
+  font-size:28px;
+  color:#07156f;
+}
+
+.property-location{
+  margin:0 0 15px;
+  color:#666;
+}
+
+.property-modal-price{
+  font-size:24px;
+  font-weight:700;
+  color:#c62828;
+  margin-bottom:20px;
+}
+
+.property-modal-details{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+  margin-bottom:20px;
+}
+
+.property-modal-details div{
+  padding:10px;
+  background:#f7f7f7;
+  border-radius:8px;
+}
+
+.property-modal-description{
+  line-height:1.6;
+  margin-bottom:20px;
+}
+
+@media(max-width:600px){
+
+  .property-modal{
+    padding:10px;
+  }
+
+  .property-modal-content{
+    margin:10px auto;
+  }
+
+  .property-gallery-main{
+    height:350px;
+  }
+
+  .property-modal-info{
+    padding:18px;
+  }
+
+  .property-modal-info h2{
+    font-size:22px;
+  }
+
+  .property-modal-details{
+    grid-template-columns:1fr;
+  }
+
+}  /* PROPERTY GALLERY MODAL */
+
+.property-modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  background:rgba(0,0,0,.75);
+  padding:20px;
+  overflow-y:auto;
+}
+
+.property-modal.open{
+  display:block;
+}
+
+.property-modal-content{
+  position:relative;
+  width:min(1000px, 100%);
+  margin:30px auto;
+  background:#fff;
+  border-radius:16px;
+  overflow:hidden;
+  box-shadow:0 20px 60px rgba(0,0,0,.3);
+}
+
+.property-modal-close{
+  position:absolute;
+  right:15px;
+  top:15px;
+  z-index:10;
+  width:40px;
+  height:40px;
+  border:none;
+  border-radius:50%;
+  background:#fff;
+  color:#222;
+  font-size:20px;
+  cursor:pointer;
+}
+
+.property-gallery-main{
+  position:relative;
+  width:100%;
+  height:550px;
+  background:#111;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.property-gallery-main img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+}
+
+.gallery-prev,
+.gallery-next{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  width:45px;
+  height:45px;
+  border:none;
+  border-radius:50%;
+  background:#fff;
+  color:#222;
+  font-size:22px;
+  cursor:pointer;
+}
+
+.gallery-prev{
+  left:15px;
+}
+
+.gallery-next{
+  right:15px;
+}
+
+.property-gallery-counter{
+  text-align:center;
+  padding:8px;
+  color:#666;
+}
+
+.property-modal-info{
+  padding:25px;
+}
+
+.property-modal-info h2{
+  margin:0 0 6px;
+  font-size:28px;
+  color:#07156f;
+}
+
+.property-modal-price{
+  font-size:24px;
+  font-weight:700;
+  color:#c62828;
+  margin-bottom:20px;
+}
+
+.property-modal-details{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+  margin-bottom:20px;
+}
+
+.property-modal-details div{
+  padding:10px;
+  background:#f7f7f7;
+  border-radius:8px;
+}
+
+.property-modal-description{
+  line-height:1.6;
+  margin-bottom:20px;
+}
+
+@media(max-width:600px){
+
+  .property-gallery-main{
+    height:350px;
+  }
+
+  .property-modal-details{
+    grid-template-columns:1fr;
+  }
+
+}
 </style>
 </head>
 
@@ -1907,6 +2197,14 @@ footer{
 
           <label>
             Main Property Photo
+            <label>Additional Property Photos</label>
+<input
+  type="file"
+  id="newPropGallery"
+  accept="image/*"
+  multiple
+>
+<div id="newPropGalleryPreview" class="gallery-preview"></div>
           </label>
 
           <input
@@ -1915,7 +2213,18 @@ footer{
             accept="image/*"
             onchange="previewNewProperty(event)"
           >
+<label>
+  Additional Property Photos
+  <input
+    id="newPropGallery"
+    type="file"
+    accept="image/*"
+    multiple
+    onchange="previewGalleryImages(event)"
+  >
+</label>
 
+<div id="newPropGalleryPreview"></div>
         </div>
 
 
@@ -2104,6 +2413,192 @@ function showToast(message){
 
 }
 async function selectProperty(propertyId){
+
+  const properties = await getProperties();
+
+  const property = properties.find(
+    p => String(p.id) === String(propertyId)
+  );
+
+  if(!property){
+    return;
+  }
+editingPropertyGallery =
+  Array.isArray(property.gallery_images)
+    ? property.gallery_images
+    : [];
+  openPropertyDetails(property);
+}
+  function openPropertyDetails(property){
+
+  const gallery = [
+    property.image_url,
+    ...(Array.isArray(property.gallery_images)
+      ? property.gallery_images
+      : [])
+  ].filter(Boolean);
+
+  const uniqueGallery = [...new Set(gallery)];
+
+  let currentImage = 0;
+
+  const modal = document.getElementById('propertyModal');
+
+  if(!modal) return;
+
+  const galleryBox =
+    document.getElementById('propertyGallery');
+
+  const detailsBox =
+    document.getElementById('propertyModalDetails');
+
+  function showImage(){
+
+    if(!uniqueGallery.length){
+      galleryBox.innerHTML =
+        '<p>No property photos available.</p>';
+      return;
+    }
+
+    galleryBox.innerHTML = `
+      <div class="property-gallery-main">
+        <img
+          src="${uniqueGallery[currentImage]}"
+          alt="${escapeHtml(property.name || 'Property')}"
+        >
+
+        ${
+          uniqueGallery.length > 1
+          ? `
+            <button
+              type="button"
+              class="gallery-prev"
+              onclick="changePropertyImage(-1)"
+            >
+              ❮
+            </button>
+
+            <button
+              type="button"
+              class="gallery-next"
+              onclick="changePropertyImage(1)"
+            >
+              ❯
+            </button>
+          `
+          : ''
+        }
+      </div>
+
+      <div class="property-gallery-counter">
+        ${currentImage + 1} / ${uniqueGallery.length}
+      </div>
+    `;
+  }
+
+  window.changePropertyImage = function(direction){
+
+    currentImage += direction;
+
+    if(currentImage < 0){
+      currentImage = uniqueGallery.length - 1;
+    }
+
+    if(currentImage >= uniqueGallery.length){
+      currentImage = 0;
+    }
+
+    showImage();
+  };
+
+  detailsBox.innerHTML = `
+    <h2>${escapeHtml(property.name || '')}</h2>
+
+    <p class="property-location">
+      ${escapeHtml(property.location || '')}
+    </p>
+
+    ${
+      property.price
+      ? `<div class="property-modal-price">
+          ${escapeHtml(property.price)}
+         </div>`
+      : ''
+    }
+
+    <div class="property-modal-details">
+
+      ${
+        property.property_type
+        ? `<div><strong>Type:</strong> ${escapeHtml(property.property_type)}</div>`
+        : ''
+      }
+
+      ${
+        property.lot_area
+        ? `<div><strong>Lot Area:</strong> ${escapeHtml(property.lot_area)}</div>`
+        : ''
+      }
+
+      ${
+        property.floor_area
+        ? `<div><strong>Floor Area:</strong> ${escapeHtml(property.floor_area)}</div>`
+        : ''
+      }
+
+      ${
+        property.bedrooms
+        ? `<div><strong>Bedrooms:</strong> ${escapeHtml(property.bedrooms)}</div>`
+        : ''
+      }
+
+      ${
+        property.bathrooms
+        ? `<div><strong>Bathrooms:</strong> ${escapeHtml(property.bathrooms)}</div>`
+        : ''
+      }
+
+      ${
+        property.parking
+        ? `<div><strong>Parking:</strong> ${escapeHtml(property.parking)}</div>`
+        : ''
+      }
+
+    </div>
+
+    ${
+      property.description
+      ? `
+        <div class="property-modal-description">
+          ${escapeHtml(property.description)}
+        </div>
+      `
+      : ''
+    }
+
+    <button
+      type="button"
+      class="btn"
+      onclick="selectPropertyForInquiry('${property.id}')"
+    >
+      INQUIRE THIS PROPERTY
+    </button>
+  `;
+
+  modal.classList.add('open');
+
+  showImage();
+}
+  const properties = await getProperties();
+
+  const property = properties.find(
+    p => String(p.id) === String(propertyId)
+  );
+
+  if(!property) return;
+
+  openPropertyDetails(property);
+}
 
   const propertyInput =
     document.getElementById('propertyInquiry');
@@ -2990,6 +3485,7 @@ function resetEdits(){
 ========================================================= */
 
 let editingPropertyId = null;
+    let editingPropertyGallery = [];
 
 let editingPropertyImage = '';
 
@@ -3113,7 +3609,48 @@ async function uploadPropertyImage(file){
 function previewNewProperty(
   event
 ){
+function previewGalleryImages(event){
 
+  const preview =
+    document.getElementById('newPropGalleryPreview');
+
+  if(!preview){
+    return;
+  }
+
+  preview.innerHTML = '';
+
+  const files =
+    [...event.target.files];
+
+  files.forEach(file => {
+
+    const reader =
+      new FileReader();
+
+    reader.onload = function(e){
+
+      const img =
+        document.createElement('img');
+
+      img.src = e.target.result;
+
+      img.style.width = '100px';
+      img.style.height = '75px';
+      img.style.objectFit = 'cover';
+      img.style.borderRadius = '8px';
+      img.style.margin = '5px';
+      img.style.border = '1px solid #ddd';
+
+      preview.appendChild(img);
+
+    };
+
+    reader.readAsDataURL(file);
+
+  });
+
+}
   const file =
     event.target.files[0];
 
@@ -3229,7 +3766,53 @@ async function addProperty(){
 
   }
 
+const galleryInput = document.getElementById('newPropGallery');
+const galleryFiles = galleryInput ? Array.from(galleryInput.files) : [];
 
+let galleryImages = [];
+
+if(editingPropertyId){
+  const existingProperty = properties.find(
+    p => String(p.id) === String(editingPropertyId)
+  );
+
+  if(existingProperty && Array.isArray(existingProperty.gallery_images)){
+    galleryImages = [...existingProperty.gallery_images];
+  }
+}
+
+if(galleryFiles.length){
+  const uploadedGallery = await Promise.all(
+    galleryFiles.map(file => uploadPropertyImage(file))
+  );
+
+  galleryImages = [
+    ...galleryImages,
+    ...uploadedGallery.filter(Boolean)
+  ];
+}
+  let galleryImages = Array.isArray(editingPropertyGallery)
+  ? editingPropertyGallery
+  : [];
+
+const galleryInput =
+  document.getElementById('newPropGallery');
+
+if(galleryInput && galleryInput.files.length){
+
+  const uploaded =
+    await Promise.all(
+      [...galleryInput.files].map(
+        file => uploadPropertyImage(file)
+      )
+    );
+
+  galleryImages = [
+    ...galleryImages,
+    ...uploaded.filter(Boolean)
+  ];
+
+}
   const propertyData = {
 
     name:name,
@@ -3376,8 +3959,8 @@ storeys: document.getElementById('newPropStoreys').value.trim(),
         .value
         .trim(),
 
-    image_url:imageUrl
-
+image_url:imageUrl,
+gallery_images:galleryImages
   };
 
 
@@ -4434,9 +5017,45 @@ document.addEventListener(
 
   }
 );
+function closePropertyModal(event){
 
+  const modal =
+    document.getElementById('propertyModal');
+
+  if(modal){
+    modal.classList.remove('open');
+  }
+
+}
 </script>
+<!-- PROPERTY DETAILS / GALLERY MODAL -->
+<div
+  id="propertyModal"
+  class="property-modal"
+  onclick="closePropertyModal(event)"
+>
+  <div
+    class="property-modal-content"
+    onclick="event.stopPropagation()"
+  >
 
+    <button
+      type="button"
+      class="property-modal-close"
+      onclick="closePropertyModal()"
+    >
+      ✕
+    </button>
+
+    <div id="propertyGallery"></div>
+
+    <div
+      id="propertyModalDetails"
+      class="property-modal-info"
+    ></div>
+
+  </div>
+</div>
 </body>
 </html>
 ```
