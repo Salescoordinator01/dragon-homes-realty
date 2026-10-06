@@ -4611,12 +4611,12 @@ if(
 
       return `
 
-        <article class="property-card">
-
-          <img
-            src="${escapeHtml(image)}"
-            alt="${escapeHtml(property.name)}"
-          >
+        <img
+  src="${escapeHtml(image)}"
+  alt="${escapeHtml(property.name)}"
+  style="cursor:pointer;"
+  onclick="openPropertyDetails('${property.id}')"
+>
 
           <div class="card-body">
 
@@ -4825,6 +4825,95 @@ document.addEventListener(
 
   }
 );
+  async function openPropertyDetails(propertyId){
+
+  const properties =
+    await getProperties();
+
+  const property =
+    properties.find(
+      p => String(p.id) === String(propertyId)
+    );
+
+  if(!property){
+    return;
+  }
+
+  const gallery =
+    document.getElementById(
+      'propertyGallery'
+    );
+
+  const details =
+    document.getElementById(
+      'propertyModalDetails'
+    );
+
+  const modal =
+    document.getElementById(
+      'propertyModal'
+    );
+
+  if(!gallery || !details || !modal){
+    return;
+  }
+
+  const galleryImages =
+    Array.isArray(property.gallery_images)
+      ? property.gallery_images
+      : [];
+
+  const images = [
+    property.image_url,
+    ...galleryImages
+  ].filter(Boolean);
+
+  gallery.innerHTML =
+    images.length
+      ? images.map((img, index) => `
+          <img
+            src="${escapeHtml(img)}"
+            alt="${escapeHtml(property.name)} photo ${index + 1}"
+            style="
+              width:100%;
+              max-height:500px;
+              object-fit:contain;
+              display:block;
+              margin-bottom:12px;
+              border-radius:10px;
+            "
+          >
+        `).join('')
+      : `
+          <p class="help">
+            No additional photos available.
+          </p>
+        `;
+
+  details.innerHTML = `
+
+    <h2>
+      ${escapeHtml(property.name)}
+    </h2>
+
+    <p>
+      ${escapeHtml(property.location || '')}
+    </p>
+
+    <p>
+      <strong>
+        ${escapeHtml(
+          property.price ||
+          'Price upon request'
+        )}
+      </strong>
+    </p>
+
+  `;
+
+  modal.classList.add('open');
+
+}
 function closePropertyModal(event){
 
   const modal =
