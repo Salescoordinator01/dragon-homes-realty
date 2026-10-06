@@ -1610,6 +1610,8 @@ footer{
 
         <div class="field">
 
+
+          
           <label>
             Website name / title na lalabas sa search
           </label>
@@ -2195,26 +2197,21 @@ footer{
 
         <div class="field">
 
-          <label>
-            Main Property Photo
-            <label>Additional Property Photos</label>
-<input
-  type="file"
-  id="newPropGallery"
-  accept="image/*"
-  multiple
->
-<div id="newPropGalleryPreview" class="gallery-preview"></div>
-          </label>
+  <label>
+    Main Property Photo
+  </label>
 
-          <input
-            id="newPropImage"
-            type="file"
-            accept="image/*"
-            onchange="previewNewProperty(event)"
-          >
-<label>
-  Additional Property Photos
+  <input
+    id="newPropImage"
+    type="file"
+    accept="image/*"
+    onchange="previewNewProperty(event)"
+  >
+
+  <label>
+    Additional Property Photos
+  </label>
+
   <input
     id="newPropGallery"
     type="file"
@@ -2222,10 +2219,13 @@ footer{
     multiple
     onchange="previewGalleryImages(event)"
   >
-</label>
 
-<div id="newPropGalleryPreview"></div>
-        </div>
+  <div
+    id="newPropGalleryPreview"
+    class="gallery-preview"
+  ></div>
+
+</div>
 
 
         <img
