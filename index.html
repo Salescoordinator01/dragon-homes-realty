@@ -3902,7 +3902,10 @@ async function editProperty(
 
   editingPropertyImage =
     property.image_url || '';
-
+editingPropertyGallery =
+  Array.isArray(property.gallery_images)
+    ? [...property.gallery_images]
+    : [];
 
   document
     .getElementById(
@@ -4258,8 +4261,9 @@ function togglePricePerSqmField(){
 
 function resetPropertyForm(){
 
-  editingPropertyId = null;
-  editingPropertyImage = '';
+ editingPropertyId = null;
+editingPropertyImage = '';
+editingPropertyGallery = [];
 
   [
     'newPropName',
@@ -4302,7 +4306,23 @@ function resetPropertyForm(){
   document.getElementById(
     'newPropImage'
   ).value = '';
+const galleryInput =
+  document.getElementById(
+    'newPropGallery'
+  );
 
+if(galleryInput){
+  galleryInput.value = '';
+}
+
+const galleryPreview =
+  document.getElementById(
+    'newPropGalleryPreview'
+  );
+
+if(galleryPreview){
+  galleryPreview.innerHTML = '';
+}
   const preview =
     document.getElementById(
       'newPropPreview'
@@ -4624,7 +4644,9 @@ if(
 
       return `
 
-        <img
+        <article class="property-card">
+
+          <img
   src="${escapeHtml(image)}"
   alt="${escapeHtml(property.name)}"
   style="cursor:pointer;"
