@@ -3354,70 +3354,231 @@ async function uploadPropertyImage(file){
     return '';
   }
 
-  const extension =
-    file.name
-      .split('.')
-      .pop()
-      .toLowerCase();
+  try{
 
-  const fileName =
-    `${Date.now()}-${crypto.randomUUID()}.${extension}`;
+    // Compress image before upload
+    const compressedFile =
+      await compressImage(file);
 
-  const filePath =
-    `properties/${fileName}`;
+    const fileExt =
+      compressedFile.name
+        .split('.')
+        .pop()
+        .toLowerCase();
 
-  const {
-    data: uploadData,
-    error: uploadError
-  } = await supabaseClient
-    .storage
-    .from('property-images')
-    .upload(
-      filePath,
-      file,
-      {
-        cacheControl: '3600',
-        upsert: false
-      }
-    );
+    const fileName =
+      `${Date.now()}-${Math.random()
+        .toString(36)
+        .substring(2,8)}.${fileExt}`;
 
-  if(uploadError){
+    const filePath =
+      `properties/${fileName}`;
+
+    const {
+      error: uploadError
+    } =
+      await supabaseClient
+        .storage
+        .from('property-images')
+        .upload(
+          filePath,
+          compressedFile,
+          {
+            cacheControl: '31536000',
+            upsert: false
+          }
+        );
+
+    if(uploadError){
+
+      console.error(
+        'Image upload error:',
+        uploadError
+      );
+
+      alert(
+        'Failed to upload image: ' +
+        uploadError.message
+      );
+
+      return '';
+
+    }
+
+    const {
+      data
+    } =
+      supabaseClient
+        .storage
+        .from('property-images')
+        .getPublicUrl(filePath);
+
+    return data.publicUrl;
+
+  }catch(error){
 
     console.error(
-      'Image upload error:',
-      uploadError
+      'Image processing error:',
+      error
     );
 
     alert(
-      'Image upload failed: ' +
-      uploadError.message
+      'Failed to process image.'
     );
 
     return '';
 
   }
-
-  const {
-    data: publicData
-  } = supabaseClient
-    .storage
-    .from('property-images')
-    .getPublicUrl(filePath);
-
-  if(!publicData || !publicData.publicUrl){
-
-    alert(
-      'Image uploaded, but public URL could not be created.'
-    );
-
-    return '';
-
-  }
-
-  return publicData.publicUrl;
 
 }
+  async function compressImage(file){
 
+  const maxWidth = 1600;
+  const maxHeight = 1600;
+  const quality = 0.80;
+
+  return new Promise(
+    (resolve, reject) => {
+
+      const img =
+        new Image();
+
+      const reader =
+        new FileReader();
+
+      reader.onload =
+        function(event){
+
+          img.onload =
+            function(){
+
+              let width =
+                img.width;
+
+              let height =
+                img.height;
+
+              // Resize only if needed
+              if(
+                width > maxWidth ||
+                height > maxHeight
+              ){
+
+                const ratio =
+                  Math.min(
+                    maxWidth / width,
+                    maxHeight / height
+                  );
+
+                width =
+                  Math.round(
+                    width * ratio
+                  );
+
+                height =
+                  Math.round(
+                    height * ratio
+                  );
+
+              }
+
+              const canvas =
+                document.createElement(
+                  'canvas'
+                );
+
+              canvas.width =
+                width;
+
+              canvas.height =
+                height;
+
+              const ctx =
+                canvas.getContext(
+                  '2d'
+                );
+
+              ctx.drawImage(
+                img,
+                0,
+                0,
+                width,
+                height
+              );
+
+              canvas.toBlob(
+                function(blob){
+
+                  if(!blob){
+
+                    reject(
+                      new Error(
+                        'Image compression failed.'
+                      )
+                    );
+
+                    return;
+
+                  }
+
+                  const compressedFile =
+                    new File(
+                      [blob],
+                      file.name
+                        .replace(
+                          /\.[^/.]+$/,
+                          '.jpg'
+                        ),
+                      {
+                        type:
+                          'image/jpeg'
+                      }
+                    );
+
+                  resolve(
+                    compressedFile
+                  );
+
+                },
+                'image/jpeg',
+                quality
+              );
+
+            };
+
+          img.onerror =
+            function(){
+
+              reject(
+                new Error(
+                  'Unable to read image.'
+                )
+              );
+
+            };
+
+          img.src =
+            event.target.result;
+
+        };
+
+      reader.onerror =
+        function(){
+
+          reject(
+            new Error(
+              'Unable to read file.'
+            )
+          );
+
+        };
+
+      reader.readAsDataURL(file);
+
+    }
+  );
+
+}
 /* =========================================================
    PREVIEW NEW PROPERTY IMAGE
 ========================================================= */
@@ -3453,8 +3614,9 @@ function previewNewProperty(
 
   reader.readAsDataURL(file);
 
+    }
+  );
 }
-
 
 function previewGalleryImages(event){
 
