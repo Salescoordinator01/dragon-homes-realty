@@ -3766,53 +3766,35 @@ async function addProperty(){
 
   }
 
-const galleryInput = document.getElementById('newPropGallery');
-const galleryFiles = galleryInput ? Array.from(galleryInput.files) : [];
-
-let galleryImages = [];
-
-if(editingPropertyId){
-  const existingProperty = properties.find(
-    p => String(p.id) === String(editingPropertyId)
-  );
-
-  if(existingProperty && Array.isArray(existingProperty.gallery_images)){
-    galleryImages = [...existingProperty.gallery_images];
-  }
-}
-
-if(galleryFiles.length){
-  const uploadedGallery = await Promise.all(
-    galleryFiles.map(file => uploadPropertyImage(file))
-  );
-
-  galleryImages = [
-    ...galleryImages,
-    ...uploadedGallery.filter(Boolean)
-  ];
-}
-  let galleryImages = Array.isArray(editingPropertyGallery)
-  ? editingPropertyGallery
-  : [];
-
 const galleryInput =
   document.getElementById('newPropGallery');
 
-if(galleryInput && galleryInput.files.length){
+const galleryFiles =
+  galleryInput
+    ? Array.from(galleryInput.files)
+    : [];
 
-  const uploaded =
+let galleryImages =
+  Array.isArray(editingPropertyGallery)
+    ? [...editingPropertyGallery]
+    : [];
+
+if(galleryFiles.length){
+
+  const uploadedGallery =
     await Promise.all(
-      [...galleryInput.files].map(
+      galleryFiles.map(
         file => uploadPropertyImage(file)
       )
     );
 
   galleryImages = [
     ...galleryImages,
-    ...uploaded.filter(Boolean)
+    ...uploadedGallery.filter(Boolean)
   ];
 
 }
+
   const propertyData = {
 
     name:name,
