@@ -3547,9 +3547,7 @@ async function uploadPropertyImage(file){
    PREVIEW NEW PROPERTY IMAGE
 ========================================================= */
 
-function previewNewProperty(
-  event
-){
+function previewNewProperty(event){
 
   const file =
     event.target.files[0];
@@ -3568,6 +3566,10 @@ function previewNewProperty(
         'newPropPreview'
       );
 
+    if(!preview){
+      return;
+    }
+
     preview.src =
       reader.result;
 
@@ -3578,10 +3580,7 @@ function previewNewProperty(
 
   reader.readAsDataURL(file);
 
-    }
-  );
 }
-
 function previewGalleryImages(event){
 
   const preview =
